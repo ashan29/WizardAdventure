@@ -245,15 +245,15 @@ var platform_width = 410;
 var platform_height = 10;
 //adding and creating the platform
 platforms.push({
-    x: 20,
+    x: 0,
     y: canvas.height - 250,
-    width: platform_width,
+    width: platform_width + 10,
     height: platform_height,
     canMove: false,
 });
 
 platforms.push({
-    x: canvas.width - 630,
+    x: 0,
     y: canvas.height - 20,
     width: platform_width,
     height: platform_height,
@@ -278,7 +278,7 @@ function complete() {
 }
 
 platforms.push({
-    x: canvas.width - 80,
+    x: canvas.width - 200,
     y: canvas.height - 20,
     width: 100,
     height: platform_height,
@@ -339,6 +339,7 @@ function intro_screen() {
     context.fillText("Press Enter To Start", canvas.width / 2, canvas.height / 2 + 50);
 }
 
+
 function startlevel() {
 
     clearCanvas();
@@ -385,7 +386,7 @@ function loop() {
     if (bullet.alive) {
         bullet.draw();
         bullet.move();
-        if (collisionCheck(bullet, enemy)) //check if the bullet touch an enemy
+        if (collisionCheck(bullet, enemy, true)) //check if the bullet touch an enemy
         {
             enemy.dead = true; //the enemy died
             bullet.alive = false; //hide the bullet
@@ -431,7 +432,7 @@ function loop() {
 
     player.grounded = false;
     for (var i = 0; i < platforms.length; i++) {
-        var direction = collisionCheck(player, platforms[i]);
+        var direction = collisionCheck(player, platforms[i], false);
 
         if (direction == "left" || direction == "right") {
             player.velX = 0;
@@ -448,15 +449,6 @@ function loop() {
         player.velY = 0;
     }
 
-
-
-    if (!enemy.dead) { //check if the player touch the enemy
-        if (collisionCheck(player, enemy)) {
-            gameover();
-            return;
-        }
-    }
-
     if (enemy.grounded) {
         enemy.velY = 0;
     }
@@ -465,13 +457,22 @@ function loop() {
         window.location.reload(false);
         return;
     }
-    requestAnimationFrame(loop);
+    //requestAnimationFrame(loop);
 
-    if (collisionCheck(player, goal)) { //check if the player reach the goal
+    if (collisionCheck(player, goal, false)) { //check if the player reach the goal
         complete();
         return;
     }
 
+    if (!enemy.dead) { //check if the player touch the enemy
+        if (collisionCheck(player, enemy, true)) {
+            gameover();
+            return;
+        }
+    }
+    if (!completed) {
+        requestAnimationFrame(loop);
+    }
     context.drawImage(tree, canvas.width - 650, canvas.height - 310, 63, 72);
 
 
@@ -500,17 +501,27 @@ function alertFunc() {
     }
 }
 
-function collisionCheck(character, platform) {
+function collisionCheck(character, platform, test) {
 
-    var vectorX = (character.x + (character.width / 2)) - (platform.x + (platform.width / 2));
+    var less = 0;
+    if (test)
+        this.less = 60;
+
+    if (platform.type == 5)
+        return;
+
+    var vectorX = (character.x + (character.width - this.less / 2)) - (platform.x + (platform.width / 2));
     var vectorY = (character.y + (character.height / 2)) - (platform.y + (platform.height / 2));
 
-    var halfWidths = (character.width / 2) + (platform.width / 2);
+    var halfWidths = (character.width - this.less / 2) + (platform.width / 2);
     var halfHeights = (character.height / 2) + (platform.height / 2);
 
     var collisionDirection = null;
 
+
     if (Math.abs(vectorX) < halfWidths && Math.abs(vectorY) < halfHeights) {
+        if (platform.type == 6)
+            return true;
 
         var offsetX = halfWidths - Math.abs(vectorX);
         var offsetY = halfHeights - Math.abs(vectorY);
@@ -539,8 +550,9 @@ function collisionCheck(character, platform) {
     }
 
     return collisionDirection;
-
 }
+
+
 
 function FallCheck(character) {
 
