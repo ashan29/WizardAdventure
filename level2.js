@@ -10,44 +10,51 @@ var gameo=false;
 //audios
 var jumpsound = new Audio('jump_11.wav');
 var shootsound = new Audio('shoot.wav');
+var levelsound = new Audio('sounds/Camille_Saint-Saens-Aquarium.oga');
 
 var background=new Image();
 background.src="background.jpg";
 
 var imggoal = new Image();
-imggoal.src = "castledoors.png";
+imggoal.src = "object/hauntedhouse .png";
 
 var wall = new Image();
-wall.src = "wall.png";
+wall.src = "object/grey_ground.jpg";
+
+var tree = new Image();
+tree.src = "object/dead_tree.png";
 
 
+
+var moon = new Image();
+moon.src = "object/Moon.png";
 
 //troll
 var imagTroll1 = new Image();
-imagTroll1.src = "character_troll_east_running_1.png";
+imagTroll1.src = "character_ghost_east.png";
 var imagTroll2 = new Image();
-imagTroll2.src = "character_troll_east_running_2.png";
+imagTroll2.src = "character_ghost_east.png";
 var imagTroll3 = new Image();
-imagTroll3.src = "character_troll_west_running_1.png";
+imagTroll3.src = "character_ghost_west.png";
 var imagTroll4 = new Image();
-imagTroll4.src = "character_troll_west_running_2.png";
+imagTroll4.src = "character_ghost_west.png";
 
 
 
 var player1 = new Image();
-player1.src = "player/1/character_starovous_east.png";
+player1.src = "player/1/character_1_east.png";
 var player2 = new Image();
-player2.src = "player/1/character_starovous_east_running_1.png";
+player2.src = "player/1/character_1_east_running_1.png";
 var player3 = new Image();
-player3.src = "player/1/character_starovous_east_running_2.png";
+player3.src = "player/1/character_1_east_running_2.png";
 var player4 = new Image();
-player4.src = "player/1/character_starovous_west.png";
+player4.src = "player/1/character_1_west.png";
 
 
 var playerthro0 =new Image();
-playerthro0.src= "player/1/character_starovous_east_casting.png";
+playerthro0.src= "player/1/character_1_east_casting.png";
 var playerthro1 =new Image();
-playerthro1.src= "player/1/character_starovous_west_casting.png";
+playerthro1.src= "player/1/character_1_west_casting.png";
 var bull1 = new Image();
 bull1.src = "player/1/spell_1_mia_1.png";
 
@@ -63,7 +70,7 @@ var player = {
     color: "#00FF00",
     jumping: false,
     grounded: false,
-    jumpStrength: 5,
+    jumpStrength: 6,
     draw: function () {
 
          if (this.direction == 0)
@@ -87,9 +94,45 @@ function gameover() {
 }
 
 
+//buller only one now
+var bullet = {
+    x: 0,
+    y: 0,
+    startedat: 0,
+    width: 25,
+    height: 25,
+    speed: 2,
+    alive: false,
+    color: "#00FF00",
+    direction: 0,
+    draw: function () {
+        context.drawImage(bull1, this.x, this.y, this.width, this.height);
+
+    },
+    //move the buller for 50
+    move: function () {
+        if (this.direction == 0) {
+            if (this.x > this.startedat - 70) {
+                this.x += -this.speed;
+            } else {
+                this.alive = false;
+            }
+
+        } else {
+            if (this.x < this.startedat + 70) {
+                this.x += +this.speed;
+            } else {
+                this.alive = false;
+            }
+        }
+
+    }
+}
+
+
 var enemy = {
     x: canvas.width - 380,
-    y: canvas.height - 280,
+    y: canvas.height - 288,
     startyposi: (canvas.width - 380),
     width: 40,
     height: 40,
@@ -150,11 +193,11 @@ var enemy = {
     //move auto
     move: function () {
         if (this.direction == 0) { //0 left to right
-            if (this.x < ((canvas.width - 380) + 120 - this.width)) {
+            if (this.x < ((canvas.width - 350) + 120 - this.width)) {
                 this.x += +0.5;
             } else {
                 //he reach the end of the platform
-                this.direction = 1; //going back
+                this.direction = 2.5; //going back
             }
         } else { // 1 right to left
             if (this.x > ((canvas.width - 380))) {
@@ -175,9 +218,9 @@ var enemy = {
 
 var goal = {
     x: 20,
-    y: canvas.height - 280,
-    width: 30,
-    height: 35,
+    y: canvas.height - 330,
+    width: 80,
+    height: 80,
     color: "#0098cb",
     draw: function () {
         context.drawImage(imggoal, this.x, this.y, this.width, this.height);
@@ -186,7 +229,7 @@ var goal = {
 }
 //array of platforms, we could do the same with enemies, bullet,..
 var platforms = [];
-var platform_width = 400;
+var platform_width = 410;
 var platform_height = 10;
 //adding and creating the platform
 platforms.push({
@@ -257,11 +300,9 @@ document.body.addEventListener("keydown", function (event) {
         startlevel();
     }
      if (event.keyCode == 13 && completed) {
-         //levelsound.pause();
-
+         levelsound.pause();
         dynamicallyLoadScript("level3.js");
 
-        return;
     }
     if(event.keyCode == 13 && gameo)
        window.location.reload(false);
@@ -292,6 +333,7 @@ function startlevel() {
     clearCanvas();
     gameStarted = true;
     requestAnimationFrame(loop);
+       levelsound.play();
 
 
 }
@@ -316,6 +358,7 @@ function loop() {
 //width="640" height="360"
 clearCanvas();
       context.drawImage(background, 0, 0,640, 360);
+     context.drawImage(moon, canvas.width -590, canvas.height - 350, 63, 72);
     draw_platforms();
 
 
@@ -328,6 +371,21 @@ clearCanvas();
  goal.draw();
 
  draw_platforms();
+
+
+    if (bullet.alive) {
+        bullet.draw();
+        bullet.move();
+        if (collisionCheck(bullet, enemy)) //check if the bullet touch an enemy
+        {
+            enemy.dead = true; //the enemy died
+            bullet.alive = false; //hide the bullet
+            frameNo += 100;
+        }
+
+        //bullet.alive=false;
+    }
+
 
     if (keys[38]) {
         if (!player.jumping) {
@@ -393,6 +451,13 @@ clearCanvas();
         complete();
     return;
     }
+
+     context.drawImage(tree, canvas.width -650, canvas.height - 310, 63, 72);
+
+
+
+     context.drawImage(tree, canvas.width -650, canvas.height - 90, 63, 72);
+
 }
 
 function collisionCheck(character, platform) {

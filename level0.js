@@ -22,7 +22,7 @@ myScore = new component("10px", "Consolas", "white", 50, 20, "text");
 
 
 var coinImage = new Image();
-coinImage.src = "Images/coin-sprite-animation.png";
+coinImage.src = "object/Coins_01.png";
 
 var imggoal = new Image();
 imggoal.src = "object/medievalTile_059.png";
@@ -65,7 +65,7 @@ bull1.src = "player/1/spell_1_mia_1.png";
 
 
 var coin1 = new Image();
-coin1.src = "Images/Coins_01.png";
+coin1.src = "object/Coins_01.png";
 
 var Coins = [];
 

@@ -41,7 +41,7 @@ imagTroll4.src = "character_troll_west_running_2.png";
 
 
 var coinImage = new Image();
-coinImage.src = "";
+coinImage.src = "object/Coins_01.png";
 
 var coin1 = new Image();
 coin1.src = "object/Coins_01.png";
