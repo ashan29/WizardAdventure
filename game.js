@@ -56,7 +56,7 @@ function intro_screen() {
 
 function startGame() {
     gameStarted = true;
-    dynamicallyLoadScript("level1.js");
+    dynamicallyLoadScript("level0.js");
     document.body.removeEventListener("keydown");
     levelsound.play();
 
