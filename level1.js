@@ -16,7 +16,7 @@ var shootsound = new Audio('Fireball2.mp3');
 var levelsound = new Audio('level1sound.mp3');
 var deathsound = new Audio('sounds/death.wav');
 var coinsound = new Audio('sounds/coin.wav');
-
+var completesound = new Audio('sounds/complete.wav');
 myScore = new component("10px", "Consolas", "white", 50, 20, "text");
 
 
@@ -485,7 +485,7 @@ document.body.addEventListener("keydown", function (event) {
     }
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
-
+         completesound.play();
         dynamicallyLoadScript("level2.js");
 
     }
@@ -531,7 +531,7 @@ function startGame() {
 function complete() {
     clearCanvas();
     completed = true;
-
+ completesound.play();
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
