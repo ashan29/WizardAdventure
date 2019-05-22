@@ -270,11 +270,11 @@ platforms.push({
     x: canvas.width - 170,
     y: canvas.height - 50,
     width: 500,
-    height: 200,
+    height: 150,
 });
 platforms.push({
     x: canvas.width - 380,
-    y: canvas.height - 120,
+    y: canvas.height - 70,
     width: platform_width,
     height: 200,
 });
