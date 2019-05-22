@@ -21,7 +21,7 @@ myScore = new component("10px", "Consolas", "white", 50, 20, "text");
 
 
 var imggoal = new Image();
-imggoal.src = "castledoors.png";
+imggoal.src = "object/medievalTile_059.png";
 
 var background = new Image();
 background.src = "level1back.png";
@@ -68,8 +68,9 @@ var mud = new Image();
 mud.src = "object/mud_square.png";
 
 var wall = new Image();
-wall.src="object/medievalTile_019.png";
-
+wall.src = "object/medievalTile_019.png";
+var wall2 = new Image();
+wall2.src = "object/medievalTile_065.png";
 
 
 var sign = new Image();
@@ -278,7 +279,7 @@ var platform_height = 10;
 
 
 platforms.push({
-    x: canvas.width-20,
+    x: canvas.width - 20,
     y: 100,
     width: 30,
     height: platform_height,
@@ -305,13 +306,68 @@ platforms.push({
     height: platform_height,
     type: 3,
 });
+
 platforms.push({
-    x: canvas.width - 170,
+    x: canvas.width - 130,
     y: 100,
     width: 30,
     height: platform_height,
     type: 3,
 });
+platforms.push({
+    x: canvas.width - 160,
+    y: 100,
+    width: 30,
+    height: platform_height,
+    type: 4,
+});
+
+
+
+platforms.push({
+    x: canvas.width - 20,
+    y: 57,
+    width: 30,
+    height: platform_height,
+    type: 4,
+});
+
+platforms.push({
+    x: canvas.width - 50,
+    y: 57,
+    width: 30,
+    height: platform_height,
+    type: 4,
+});
+platforms.push({
+    x: canvas.width - 80,
+    y: 57,
+    width: 30,
+    height: platform_height,
+    type: 4,
+});
+
+
+
+function draw_castle() {
+
+    var placeyy=120;
+var placexx = canvas.width - 20;
+    for (var o = 0; o < 7; o++) {
+
+        for (var q = 0; q < 5; q++) {
+             context.drawImage(wall2, placexx, placeyy, 30,  40);
+
+  placeyy=placeyy+40;
+        }
+           placexx=placexx-20;
+          placeyy=120;
+    }
+
+}
+
+
+
 
 
 platforms.push({
@@ -489,10 +545,21 @@ function draw_platforms() {
                 context.drawImage(cliff, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
                 break;
             case 3:
-                context.drawImage(wall, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+                context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);
                 context.lineWidth = 5;
                 context.strokeStyle = "#90D030";
                 context.drawImage(wall, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+                break;
+            case 4:
+                context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);
+                context.lineWidth = 5;
+                context.strokeStyle = "#90D030";
+                context.drawImage(wall, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+                break;
+            case 5:
+                context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);
+                context.lineWidth = 5;
+                context.strokeStyle = "#90D030";
                 break;
             default:
                 context.drawImage(mud, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
@@ -514,8 +581,9 @@ function loop() {
 
     clearCanvas();
     context.drawImage(background, 0, 0, 640, 360);
-    draw_platforms();
 
+draw_castle();
+     draw_platforms();
     //context.drawImage(tree, canvas.width - 170, canvas.height - 100, 63, 72);
     context.drawImage(sign, canvas.width - 150, canvas.height - 90, 30, 45);
     myScore.text = "SCORE: " + frameNo;
@@ -653,6 +721,8 @@ function collisionCheck(character, platform, test) {
     if (test)
         this.less = 60;
 
+    if (platform.type == 5)
+        return;
 
     var vectorX = (character.x + (character.width - this.less / 2)) - (platform.x + (platform.width / 2));
     var vectorY = (character.y + (character.height / 2)) - (platform.y + (platform.height / 2));
