@@ -9,6 +9,7 @@ var completed = false;
 var myScore;
 var frameNo = 0;
 var gameo = false;
+//okay
 
 //audios
 var jumpsound = new Audio('jump_11.wav');
