@@ -9,7 +9,7 @@ var completed = false;
 var myScore;
 var frameNo = 0;
 var gameo = false;
-var playerchoice = document.getElementById('player').getAttribute('value');
+
 //audios
 var jumpsound = new Audio('jump_11.wav');
 var shootsound = new Audio('Fireball2.mp3');
@@ -42,7 +42,7 @@ var imagTroll4 = new Image();
 imagTroll4.src = "character_troll_west_running_2.png";
 
 
-
+var playerchoice = document.getElementById('player').getAttribute('value');
 var player1 = new Image();
 player1.src = "player/" + playerchoice + "/character_" + playerchoice + "_east.png";
 var player2 = new Image();
@@ -68,7 +68,7 @@ coin1.src = "Images/Coins_01.png";
 
 var Coins = [];
 
-addCoins(90, 300, 15, 15, 10);
+addCoins(90, 330, 15, 15, 10);
 
 function addCoins(startx, posy, w, h, nbr) {
 
@@ -415,10 +415,11 @@ document.body.addEventListener("keyup", function (event) {
 function startGame() {
     gameStarted = true;
     clearCanvas();
+    myFunction();
     levelsound.play();
     //  ;
     enemy.draw();
-    myFunction();
+
     requestAnimationFrame(loop);
 
 
@@ -465,6 +466,7 @@ function reset() {
     player.velY = 0;
     player.velX = 0;
     completed = false;
+
 
     requestAnimationFrame(loop);
 }
