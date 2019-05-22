@@ -44,7 +44,7 @@ var coinImage = new Image();
 coinImage.src = "Images/coin-sprite-animation.png";
 
 var coin1 = new Image();
-coin1.src = "Images/Coins_01.png";
+coin1.src = "object/Coins_01.png";
 
 var Coins = [];
 
