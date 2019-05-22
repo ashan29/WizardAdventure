@@ -14,22 +14,62 @@ var shootsound = new Audio('shoot.wav');
 var background=new Image();
 background.src="background.jpg";
 
+var imggoal = new Image();
+imggoal.src = "castledoors.png";
+
+var wall = new Image();
+wall.src = "wall.png";
+
+
+
+//troll
+var imagTroll1 = new Image();
+imagTroll1.src = "character_troll_east_running_1.png";
+var imagTroll2 = new Image();
+imagTroll2.src = "character_troll_east_running_2.png";
+var imagTroll3 = new Image();
+imagTroll3.src = "character_troll_west_running_1.png";
+var imagTroll4 = new Image();
+imagTroll4.src = "character_troll_west_running_2.png";
+
+
+
+var player1 = new Image();
+player1.src = "player/1/character_starovous_east.png";
+var player2 = new Image();
+player2.src = "player/1/character_starovous_east_running_1.png";
+var player3 = new Image();
+player3.src = "player/1/character_starovous_east_running_2.png";
+var player4 = new Image();
+player4.src = "player/1/character_starovous_west.png";
+
+
+var playerthro0 =new Image();
+playerthro0.src= "player/1/character_starovous_east_casting.png";
+var playerthro1 =new Image();
+playerthro1.src= "player/1/character_starovous_west_casting.png";
+var bull1 = new Image();
+bull1.src = "player/1/spell_1_mia_1.png";
+
 
 var player = {
     x: canvas.width -630,
     y:canvas.height -40,
-    width: 20,
-    height: 20,
+    width: 40,
+    height: 40,
     speed: 5,
     velX: 0,
     velY: 0,
     color: "#00FF00",
     jumping: false,
     grounded: false,
-    jumpStrength: 7,
+    jumpStrength: 5,
     draw: function () {
-        context.fillStyle = this.color;
-        context.fillRect(this.x, this.y, this.width, this.height);
+
+         if (this.direction == 0)
+            context.drawImage(player4, this.x, this.y, this.width, this.height);
+        else
+            context.drawImage(player1, this.x, this.y, this.width, this.height);
     }
 }
 function gameover() {
@@ -47,41 +87,91 @@ function gameover() {
 }
 
 
-function enemy(width, height, color, x, y,speed,movelength) {
-   this.x=x;
-    this.y=y;
-    this.height=height;
-    this.width=width;
-    this.speed=speed;
-    this.movelength=movelength;
-    this.color=color;
-   this.startat=x;
+var enemy = {
+    x: canvas.width - 380,
+    y: canvas.height - 280,
+    startyposi: (canvas.width - 380),
+    width: 40,
+    height: 40,
+    speed: 2,
+    velX: 0,
+    velY: 0,
+    color: "#DC143C",
+    dead: false,
+    jumping: false,
+    grounded: false,
+    direction: 0,
+    jumpStrength: 7,
+    img: true,
+    wait: true,
+    start: 0,
+    draw: function () {
+        //  context.fillStyle = this.color;
+        //context.fillRect(this.x, this.y, this.width, this.height);
+        if (this.direction == 0) {
+            if (this.img) {
+                this.start = new Date().getTime();
+                context.drawImage(imagTroll1, this.x, this.y, this.width, this.height);
+                this.img = false;
+            } else {
+                if (this.wait) {
+                    context.drawImage(imagTroll1, this.x, this.y, this.width, this.height);
 
-    var draw= function () {
-        context.fillStyle = this.color;
-        context.fillRect(this.x, this.y, this.width, this.height);
-    };
+                } else {
+                    context.drawImage(imagTroll2, this.x, this.y, this.width, this.height);
+                }
+            }
+            if ((new Date().getTime() - this.start) > 400) {
+                this.wait = !this.wait;
+                this.start = new Date().getTime();
+            }
+
+        } else {
+            if (this.img) {
+                this.start = new Date().getTime();
+                context.drawImage(imagTroll3, this.x, this.y, this.width, this.height);
+                this.img = false;
+            } else {
+                if (this.wait) {
+                    context.drawImage(imagTroll3, this.x, this.y, this.width, this.height);
+
+                } else {
+                    context.drawImage(imagTroll4, this.x, this.y, this.width, this.height);
+                }
+            }
+            if ((new Date().getTime() - this.start) > 500) {
+                this.wait = !this.wait;
+                this.start = new Date().getTime();
+            }
+
+        }
+
+    },
     //move auto
-    var move= function () {
-        if (this.direction == 0) {//0 left to right
-            if (this.x < (this.startat + this.movelength - this.width)) {
-                this.x += +1;
+    move: function () {
+        if (this.direction == 0) { //0 left to right
+            if (this.x < ((canvas.width - 380) + 120 - this.width)) {
+                this.x += +0.5;
             } else {
                 //he reach the end of the platform
-                this.direction = 1;//going back
+                this.direction = 1; //going back
             }
-        }
-        else{// 1 right to left
-             if (this.x > this.startat ) {
-                this.x += -1;
+        } else { // 1 right to left
+            if (this.x > ((canvas.width - 380))) {
+                this.x += -0.5;
             } else {
                 this.direction = 0;
             }
         }
     }
+
+
+
 }
 
 //width="640" height="360"
+
+
 
 var goal = {
     x: 20,
@@ -90,8 +180,8 @@ var goal = {
     height: 35,
     color: "#0098cb",
     draw: function () {
-        context.fillStyle = this.color;
-        context.fillRect(this.x, this.y, this.width, this.height);
+        context.drawImage(imggoal, this.x, this.y, this.width, this.height);
+
     }
 }
 //array of platforms, we could do the same with enemies, bullet,..
@@ -200,6 +290,7 @@ function intro_screen() {
 function startlevel() {
 
     clearCanvas();
+    gameStarted = true;
     requestAnimationFrame(loop);
 
 
@@ -210,10 +301,10 @@ function draw_platforms() {
      context.fillStyle = "#907020";
 
 	for(var i = 0; i < platforms.length; i++){
-		context.fillRect(platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+		context.drawImage(wall,platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
 		context.lineWidth = 5;
 		context.strokeStyle = "#9798A1";
-		context.strokeRect(platforms[i].x, platforms[i].y-2, platforms[i].width, 5);
+		context.drawImage(wall,platforms[i].x, platforms[i].y-2, platforms[i].width, 5);
         if(platforms[i].canMove)
             {
                 platforms[i].move();
@@ -227,9 +318,16 @@ clearCanvas();
       context.drawImage(background, 0, 0,640, 360);
     draw_platforms();
 
-    goal.draw();
+
     player.draw();
 
+     if (!enemy.dead) {
+        enemy.draw();
+        enemy.move();
+    }
+ goal.draw();
+
+ draw_platforms();
 
     if (keys[38]) {
         if (!player.jumping) {
