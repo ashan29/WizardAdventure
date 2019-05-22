@@ -50,16 +50,30 @@ var player4 = new Image();
 player4.src = "player/1/character_starovous_west.png";
 
 
-var playerthro0 =new Image();
-playerthro0.src= "player/1/character_starovous_east_casting.png";
-var playerthro1 =new Image();
-playerthro1.src= "player/1/character_starovous_west_casting.png";
+var playerthro0 = new Image();
+playerthro0.src = "player/1/character_starovous_east_casting.png";
+var playerthro1 = new Image();
+playerthro1.src = "player/1/character_starovous_west_casting.png";
 var bull1 = new Image();
 bull1.src = "player/1/spell_1_mia_1.png";
 
 
-var tree =new Image();
-tree.src= "object/object_tree.png";
+var tree = new Image();
+tree.src = "object/foliagePack_008.png";
+var grass = new Image();
+grass.src = "object/tile_grass_cliff_north.png";
+var cliff = new Image();
+cliff.src = "object/grass_half_round.png";
+var mud = new Image();
+mud.src = "object/mud_square.png";
+
+var wall = new Image();
+wall.src="object/medievalTile_019.png";
+
+
+
+var sign = new Image();
+sign.src = "object/object_sign.png";
 
 
 function component(width, height, color, x, y, type) {
@@ -130,7 +144,7 @@ var bullet = {
     //move the buller for 50
     move: function () {
         if (this.direction == 0) {
-             if (this.x > this.startedat - 70) {
+            if (this.x > this.startedat - 70) {
                 this.x += -this.speed;
             } else {
                 this.alive = false;
@@ -242,8 +256,8 @@ function sleep(milliseconds) {
 
 //where is the gate to go to the next level
 var goal = {
-    x: canvas.width -40,
-    y: 35,
+    x: canvas.width - 40,
+    y: 55,
     width: 40,
     height: 40,
     color: "#0098cb",
@@ -260,16 +274,60 @@ var platforms = [];
 var platform_width = 120;
 var platform_height = 10;
 //adding and creating the platform
+
+
+
 platforms.push({
-    x: canvas.width - 170,
+    x: canvas.width-20,
     y: 100,
-    width: 300,
+    width: 30,
     height: platform_height,
+    type: 3,
+});
+platforms.push({
+    x: canvas.width - 50,
+    y: 100,
+    width: 30,
+    height: platform_height,
+    type: 3,
+});
+platforms.push({
+    x: canvas.width - 80,
+    y: 100,
+    width: 30,
+    height: platform_height,
+    type: 3,
+});
+platforms.push({
+    x: canvas.width - 100,
+    y: 100,
+    width: 30,
+    height: platform_height,
+    type: 3,
 });
 platforms.push({
     x: canvas.width - 170,
+    y: 100,
+    width: 30,
+    height: platform_height,
+    type: 3,
+});
+
+
+platforms.push({
+    x: canvas.width - 170,
     y: canvas.height - 50,
-    width: 500,
+    width: 250,
+    height: 150,
+
+    type: 1,
+});
+
+
+platforms.push({
+    x: canvas.width - 220,
+    y: canvas.height - 50,
+    width: 250,
     height: 150,
 });
 platforms.push({
@@ -287,7 +345,7 @@ platforms.push({
 
 platforms.push({
     x: canvas.width - 590,
-    y: canvas.height - 180,
+    y: canvas.height - 150,
     width: platform_width,
     height: platform_height,
 });
@@ -307,7 +365,8 @@ platforms.push({
     x: -10,
     y: 0,
     width: 10,
-    height: canvas.height
+    height: canvas.height,
+    type: 0,
 });
 
 // Left Wall
@@ -316,7 +375,8 @@ platforms.push({
     x: canvas.width,
     y: 0,
     width: 10,
-    height: canvas.height
+    height: canvas.height,
+    type: 0,
 });
 
 // Floor
@@ -324,7 +384,8 @@ platforms.push({
     x: 0,
     y: -10,
     width: canvas.width,
-    height: platform_height
+    height: platform_height,
+    type: 0,
 });
 
 //to start the game
@@ -416,10 +477,31 @@ function draw_platforms() {
     context.fillStyle = "#907020";
 
     for (var i = 0; i < platforms.length; i++) {
-        context.fillRect(platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
-        context.lineWidth = 5;
-        context.strokeStyle = "#90D030";
-        context.strokeRect(platforms[i].x, platforms[i].y - 2, platforms[i].width, 5);
+
+        switch (platforms[i].type) {
+            case 0:
+                // code block
+                break;
+            case 1:
+                context.drawImage(mud, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+                context.lineWidth = 5;
+                context.strokeStyle = "#90D030";
+                context.drawImage(cliff, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+                break;
+            case 3:
+                context.drawImage(wall, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+                context.lineWidth = 5;
+                context.strokeStyle = "#90D030";
+                context.drawImage(wall, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+                break;
+            default:
+                context.drawImage(mud, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+                context.lineWidth = 5;
+                context.strokeStyle = "#90D030";
+                context.drawImage(cliff, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+                break;
+        }
+
     }
 }
 
@@ -435,7 +517,7 @@ function loop() {
     draw_platforms();
 
     //context.drawImage(tree, canvas.width - 170, canvas.height - 100, 63, 72);
-
+    context.drawImage(sign, canvas.width - 150, canvas.height - 90, 30, 45);
     myScore.text = "SCORE: " + frameNo;
     myScore.update();
 
@@ -486,14 +568,14 @@ function loop() {
 
     if (keys[32]) {
         bullet.alive = true;
-        bullet.direction=player.direction;
+        bullet.direction = player.direction;
         bullet.x = player.x;
         bullet.y = player.y + 4;
 
         bullet.startedat = player.x;
 
-        if(player.direction==0)
-              context.drawImage(playerthro1, player.x, player.y, player.width, player.height);
+        if (player.direction == 0)
+            context.drawImage(playerthro1, player.x, player.y, player.width, player.height);
         else
             context.drawImage(playerthro0, player.x, player.y, player.width, player.height);
         shootsound.play();
@@ -551,8 +633,11 @@ function loop() {
         requestAnimationFrame(loop);
     }
 
-     context.drawImage(tree, canvas.width - 50, canvas.height -110, 63, 72);
-     context.drawImage(tree, canvas.width - 70, canvas.height -110, 63, 72);
+    context.drawImage(tree, canvas.width - 50, canvas.height - 125, 63, 72);
+    context.drawImage(tree, canvas.width - 70, canvas.height - 125, 63, 72);
+
+
+
 
 }
 
@@ -564,7 +649,7 @@ function run() {
 
 function collisionCheck(character, platform, test) {
 
-    var less=0;
+    var less = 0;
     if (test)
         this.less = 60;
 
