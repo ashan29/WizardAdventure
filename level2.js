@@ -6,14 +6,14 @@ var keys = [];
 var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
-var gameo=false;
+var gameo = false;
 //audios
 var jumpsound = new Audio('jump_11.wav');
 var shootsound = new Audio('shoot.wav');
 var levelsound = new Audio('sounds/Camille_Saint-Saens-Aquarium.oga');
 
-var background=new Image();
-background.src="background.jpg";
+var background = new Image();
+background.src = "background.jpg";
 
 var imggoal = new Image();
 imggoal.src = "object/hauntedhouse .png";
@@ -41,30 +41,41 @@ imagTroll4.src = "character_ghost_west.png";
 
 
 
+
+var playerchoice = document.getElementById('player').getAttribute('value');
 var player1 = new Image();
-player1.src = "player/1/character_1_east.png";
+player1.src = "player/" + playerchoice + "/character_" + playerchoice + "_east.png";
 var player2 = new Image();
-player2.src = "player/1/character_1_east_running_1.png";
+player2.src = "player/" + playerchoice + "/character_" + playerchoice + "_east_running_1.png";
 var player3 = new Image();
-player3.src = "player/1/character_1_east_running_2.png";
+player3.src = "player/" + playerchoice + "/character_" + playerchoice + "_east_running_2.png";
 var player4 = new Image();
-player4.src = "player/1/character_1_west.png";
+player4.src = "player/" + playerchoice + "/character_" + playerchoice + "_west.png";
+var player5 = new Image();
+player5.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_running_1.png";
 
 
-var playerthro0 =new Image();
-playerthro0.src= "player/1/character_1_east_casting.png";
-var playerthro1 =new Image();
-playerthro1.src= "player/1/character_1_west_casting.png";
+var playerthro0 = new Image();
+playerthro0.src = "player/" + playerchoice + "/character_" + playerchoice + "_east_casting.png";
+var playerthro1 = new Image();
+playerthro1.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_casting.png";
+var bull1 = new Image();
+bull1.src = "player/1/spell_1_mia_1.png";
+
+var playerthro0 = new Image();
+playerthro0.src = "player/1/character_1_east_casting.png";
+var playerthro1 = new Image();
+playerthro1.src = "player/1/character_1_west_casting.png";
 var bull1 = new Image();
 bull1.src = "player/1/spell_1_mia_1.png";
 
 
 var player = {
-    x: canvas.width -630,
-    y:canvas.height -40,
+    x: canvas.width - 630,
+    y: canvas.height - 40,
     width: 40,
     height: 40,
-    speed: 5,
+    speed: 2,
     velX: 0,
     velY: 0,
     color: "#00FF00",
@@ -73,15 +84,16 @@ var player = {
     jumpStrength: 6,
     draw: function () {
 
-         if (this.direction == 0)
+        if (this.direction == 0)
             context.drawImage(player4, this.x, this.y, this.width, this.height);
         else
             context.drawImage(player1, this.x, this.y, this.width, this.height);
     }
 }
+
 function gameover() {
     clearCanvas();
-   // completed = true;
+    // completed = true;
 
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
@@ -90,7 +102,7 @@ function gameover() {
 
     context.font = "20px Arial";
     context.fillText("Try again!", canvas.width / 2, canvas.height / 2 + 50);
-    gameo=true;
+    gameo = true;
 }
 
 
@@ -233,19 +245,19 @@ var platform_width = 410;
 var platform_height = 10;
 //adding and creating the platform
 platforms.push({
-    x:20,
-    y: canvas.height -250,
+    x: 20,
+    y: canvas.height - 250,
     width: platform_width,
     height: platform_height,
-    canMove:false,
+    canMove: false,
 });
 
 platforms.push({
-    x: canvas.width -630,
-    y: canvas.height -20,
+    x: canvas.width - 630,
+    y: canvas.height - 20,
     width: platform_width,
     height: platform_height,
-     canMove:false,
+    canMove: false,
 
 });
 
@@ -266,23 +278,22 @@ function complete() {
 }
 
 platforms.push({
-    x: canvas.width -80,
-    y: canvas.height -20,
+    x: canvas.width - 80,
+    y: canvas.height - 20,
     width: 100,
     height: platform_height,
-    directim:0,
-     canMove:true,
-     move: function () {
-        if (this.direction == 0) {//0 go up
-            if (this.y < canvas.height -20) {
+    directim: 0,
+    canMove: true,
+    move: function () {
+        if (this.direction == 0) { //0 go up
+            if (this.y < canvas.height - 20) {
                 this.y += +1;
             } else {
                 //he reach the end of the platform
-                this.direction = 1;//going back
+                this.direction = 1; //going back
             }
-        }
-        else{// 1 go down
-             if (this.y > (canvas.height -300)) {
+        } else { // 1 go down
+            if (this.y > (canvas.height - 300)) {
                 this.y += -1;
             } else {
                 this.direction = 0;
@@ -299,13 +310,13 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && !gameStarted) {
         startlevel();
     }
-     if (event.keyCode == 13 && completed) {
-         levelsound.pause();
+    if (event.keyCode == 13 && completed) {
+        levelsound.pause();
         dynamicallyLoadScript("level3.js");
 
     }
-    if(event.keyCode == 13 && gameo)
-       window.location.reload(false);
+    if (event.keyCode == 13 && gameo)
+        window.location.reload(false);
 
     keys[event.keyCode] = true;
 
@@ -333,44 +344,42 @@ function startlevel() {
     clearCanvas();
     gameStarted = true;
     requestAnimationFrame(loop);
-       levelsound.play();
-
-
+    levelsound.play();
+    myFunction();
 }
 
 //draw each platform in the caneva
 function draw_platforms() {
-     context.fillStyle = "#907020";
+    context.fillStyle = "#907020";
 
-	for(var i = 0; i < platforms.length; i++){
-		context.drawImage(wall,platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
-		context.lineWidth = 5;
-		context.strokeStyle = "#9798A1";
-		context.drawImage(wall,platforms[i].x, platforms[i].y-2, platforms[i].width, 5);
-        if(platforms[i].canMove)
-            {
-                platforms[i].move();
-            }
-	}
+    for (var i = 0; i < platforms.length; i++) {
+        context.drawImage(wall, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+        context.lineWidth = 5;
+        context.strokeStyle = "#9798A1";
+        context.drawImage(wall, platforms[i].x, platforms[i].y - 2, platforms[i].width, 5);
+        if (platforms[i].canMove) {
+            platforms[i].move();
+        }
+    }
 }
 
 function loop() {
-//width="640" height="360"
-clearCanvas();
-      context.drawImage(background, 0, 0,640, 360);
-     context.drawImage(moon, canvas.width -590, canvas.height - 350, 63, 72);
+    //width="640" height="360"
+    clearCanvas();
+    context.drawImage(background, 0, 0, 640, 360);
+    context.drawImage(moon, canvas.width - 590, canvas.height - 350, 63, 72);
     draw_platforms();
 
 
     player.draw();
 
-     if (!enemy.dead) {
+    if (!enemy.dead) {
         enemy.draw();
         enemy.move();
     }
- goal.draw();
+    goal.draw();
 
- draw_platforms();
+    draw_platforms();
 
 
     if (bullet.alive) {
@@ -398,16 +407,22 @@ clearCanvas();
     if (keys[39]) {
         if (player.velX < player.speed) {
             player.velX++;
+            context.drawImage(player2, player.x, player.y, player.width, player.height);
+            player.direction = 1;
+            player.isrunning = true;
+            //
         }
-    }
-
-    if (keys[37]) {
+    } else if (keys[37]) {
         if (player.velX > -player.speed) {
             player.velX--;
+            context.drawImage(player5, player.x, player.y, player.width, player.height);
+            player.isrunning = true;
+            player.direction = 0;
+            //
         }
+    } else {
+        player.isrunning = false;
     }
-
-
     player.x += player.velX;
     player.y += player.velY;
 
@@ -435,29 +450,54 @@ clearCanvas();
 
 
 
+    if (!enemy.dead) { //check if the player touch the enemy
+        if (collisionCheck(player, enemy)) {
+            gameover();
+            return;
+        }
+    }
 
     if (enemy.grounded) {
         enemy.velY = 0;
     }
 
-      if(FallCheck(player))
-         {
-              window.location.reload(false);
-         return;
-         }
-        requestAnimationFrame(loop);
+    if (FallCheck(player)) {
+        window.location.reload(false);
+        return;
+    }
+    requestAnimationFrame(loop);
 
- if (collisionCheck(player, goal)) {//check if the player reach the goal
+    if (collisionCheck(player, goal)) { //check if the player reach the goal
         complete();
-    return;
+        return;
     }
 
-     context.drawImage(tree, canvas.width -650, canvas.height - 310, 63, 72);
+    context.drawImage(tree, canvas.width - 650, canvas.height - 310, 63, 72);
 
 
 
-     context.drawImage(tree, canvas.width -650, canvas.height - 90, 63, 72);
+    context.drawImage(tree, canvas.width - 650, canvas.height - 90, 63, 72);
 
+}
+
+
+var myVar;
+var hello = true;
+
+function myFunction() {
+    myVar = setInterval(alertFunc, 300);
+}
+
+function alertFunc() {
+    if (hello) {
+        player2.src = "player/" + playerchoice + "/character_" + playerchoice + "_east_running_1.png";
+        player5.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_running_1.png";
+        hello = false;
+    } else {
+        player2.src = "player/" + playerchoice + "/character_" + playerchoice + "_east_running_2.png";
+        player5.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_running_2.png";
+        hello = true;
+    }
 }
 
 function collisionCheck(character, platform) {
@@ -501,6 +541,7 @@ function collisionCheck(character, platform) {
     return collisionDirection;
 
 }
+
 function FallCheck(character) {
 
     var collisionDirection = null;
@@ -513,6 +554,7 @@ function FallCheck(character) {
     return collisionDirection;
 
 }
+
 function clearCanvas() {
     context.clearRect(0, 0, 640, 360);
 }
