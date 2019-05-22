@@ -10,6 +10,10 @@ var completed = false;
 //audios
 var jumpsound = new Audio('jump_11.wav');
 var shootsound = new Audio('shoot.wav');
+var levelsound = new Audio('sounds/Mystery Manor.mp3');
+
+var background = new Image();
+background.src = "level3background.jpg";
 
 
 var enemies=[];
@@ -173,7 +177,7 @@ document.body.addEventListener("keydown", function (event) {
     }
 
      if (event.keyCode == 13 && completed) {
-         //levelsound.pause();
+         levelsound.pause();
 
          window.location.reload(false);
 
@@ -205,6 +209,7 @@ function intro_screen() {
 function startlevel() {
 
     clearCanvas();
+    levelsound.play();
     requestAnimationFrame(loop);
 
 
@@ -253,6 +258,8 @@ function gameover() {
 function loop() {
 
 clearCanvas();
+     context.drawImage(background, 0, 0, 640, 360);
+
     draw_platforms();
 
     draw_enemies();
