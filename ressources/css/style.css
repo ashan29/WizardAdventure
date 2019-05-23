@@ -13,6 +13,10 @@ h1{
     text-align: center;
 }
 
+.hidden{
+	display: none;
+}
+
 h2 {
     padding: 1em 5em 0em 1em;
     border-bottom: 1px solid black;

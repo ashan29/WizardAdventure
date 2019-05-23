@@ -32,8 +32,12 @@ otherCountryFlag.src="Images/unknowncountry.png";
 var elipse = new Image();
 elipse.src="Images/character/ellipse.png";
 
+var bouclier = new Image();
+bouclier.src="Images/bouclier.png";
 
-
+var lat;
+var long;
+var coords = false;
 
 var hoverButton = false;
 var buttonX = [canvas.width/2-230,canvas.width/2-230];
@@ -233,6 +237,9 @@ document.body.addEventListener("keydown", function (event) {
          gameLaunched = true;
          var name=document.getElementById("playerNameValue").value;
     localStorage.setItem('playername',name);
+
+         hideItems();
+
          return;
 
      }
@@ -271,6 +278,15 @@ function intro_screen() {
 
 }
 
+function hideItems() {
+    document.getElementById('1').classList.add("hidden");
+    document.getElementById('2').classList.add("hidden");
+    document.getElementById('3').classList.add("hidden");
+    document.getElementById('playerNameValue').classList.add("hidden");
+
+
+}
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -282,6 +298,9 @@ function getLocation() {
 function showPosition(position) {
   console.log('Latitude: ' + position.coords.latitude +
   ' Longitude: ' + position.coords.longitude);
+    coords=true;
+    lat = position.coords.latitude;
+    long = position.coords.longitude;
 }
 
 function options_screen() {
@@ -332,13 +351,27 @@ function draw(){
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
     context.lineWidth=1;
-    context.strokeText("Country", 35,15);
+
+    context.drawImage(bouclier, 10,12);
+    context.strokeText("Country", 35,20);
+
+
+
+    if(coords==true){
+        context.font = "12px calibri";
+        context.fillStyle = "#000";
+        context.textAlign = "center";
+        context.lineWidth=1;
+        context.fillText("Lat : " + lat.toFixed(2), 35,70);
+        context.fillText("Lgt : " + long.toFixed(2), 35,80);
+    }
+
     context.lineWidth=2;
 
     if(connectedFromSwiss){
-        context.drawImage(swissFlag, 20, 20,30,30);
+        context.drawImage(swissFlag, 28, 28,15,15);
     } else {
-        context.drawImage(otherCountryFlag, 20, 20, 30,30);
+        context.drawImage(otherCountryFlag, 20, 20, 15,15);
     }
 
     if(optionsMenuSelected==false){
