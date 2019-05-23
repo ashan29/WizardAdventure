@@ -10,6 +10,7 @@ var gameo = false;
 //audios
 var jumpsound = new Audio('jump_11.wav');
 var shootsound = new Audio('shoot.wav');
+var coinsound = new Audio('sounds/coin.wav');
 var levelsound = new Audio('sounds/Camille_Saint-Saens-Aquarium.oga');
 
 var background = new Image();
@@ -38,6 +39,25 @@ var imagTroll3 = new Image();
 imagTroll3.src = "character_ghost_west.png";
 var imagTroll4 = new Image();
 imagTroll4.src = "character_ghost_west.png";
+
+var bone = new Image();
+bone.src = "object/bone.png"
+
+var coffin = new Image();
+coffin.src = "object/coffin2.png"
+
+var cross = new Image();
+cross.src = "object/cross2.png"
+
+var skull = new Image();
+skull.src = "object/skull.png"
+
+
+var gate = new Image();
+gate.src = "object/grade2.png"
+
+var grave = new Image();
+grave.src = "object/grave2.png"
 
 
 
@@ -68,6 +88,32 @@ var playerthro1 = new Image();
 playerthro1.src = "player/1/character_1_west_casting.png";
 var bull1 = new Image();
 bull1.src = "player/1/spell_1_mia_1.png";
+
+
+var coin1 = new Image();
+coin1.src = "object/Coins_01.png";
+
+var Coins = [];
+
+addCoins(90, 290, 15, 15, 10);
+addCoins(120, 270, 15, 15, 10);
+addCoins(360, 50, 15, 15, 10);
+function addCoins(startx, posy, w, h, nbr) {
+
+    var posx = startx;
+    for (var c = 0; c < nbr; c++) //:D)
+    {
+        Coins.push({
+            x: posx,
+            y: posy,
+            width: w,
+            height: h,
+            type: 6,
+            got: false,
+        });
+        posx = posx + 20;
+    }
+}
 
 
 var player = {
@@ -229,7 +275,7 @@ var enemy = {
 
 
 var goal = {
-    x: 20,
+    x: -10,
     y: canvas.height - 330,
     width: 80,
     height: 80,
@@ -349,6 +395,51 @@ function startlevel() {
     myFunction();
 }
 
+
+function complete() {
+    clearCanvas();
+    completed = true;
+ completesound.play();
+    context.font = "50px Impact";
+    context.fillStyle = "#0099CC";
+    context.textAlign = "center";
+    context.fillText("Congrats! You've Won!", canvas.width / 2, canvas.height / 2);
+
+    context.font = "20px Arial";
+    context.fillText("Press Enter to Play Again", canvas.width / 2, canvas.height / 2 + 50);
+
+
+}
+
+
+//the player ddied
+function gameover() {
+    clearCanvas();
+    // completed = true;
+    deathsound.play();
+    context.font = "50px Impact";
+    context.fillStyle = "#0099CC";
+    context.textAlign = "center";
+    context.fillText("Game over! ", canvas.width / 2, canvas.height / 2);
+
+    context.font = "20px Arial";
+    context.fillText("Try again!", canvas.width / 2, canvas.height / 2 + 50);
+    gameo = true;
+}
+
+
+
+function reset() {
+    player.x = canvas.width - 170;
+    player.y = canvas.height - 60;
+    player.grounded = true;
+    player.velY = 0;
+    player.velX = 0;
+    completed = false;
+
+    requestAnimationFrame(loop);
+}
+
 //draw each platform in the caneva
 function draw_platforms() {
     context.fillStyle = "#907020";
@@ -364,12 +455,30 @@ function draw_platforms() {
     }
 }
 
+
+
+
+
+function draw_coins() {
+    context.fillStyle = "#907020";
+
+    for (var i = 0; i < Coins.length; i++) {
+
+
+        if (!Coins[i].got) {
+            context.drawImage(coin1, Coins[i].x, Coins[i].y, Coins[i].width, Coins[i].height);
+        }
+
+    }
+}
+
 function loop() {
     //width="640" height="360"
     clearCanvas();
     context.drawImage(background, 0, 0, 640, 360);
-    context.drawImage(moon, canvas.width - 590, canvas.height - 350, 63, 72);
+    context.drawImage(moon, canvas.width - 600, canvas.height - 350, 63, 72);
     draw_platforms();
+     draw_coins();
 
 
     player.draw();
@@ -390,7 +499,7 @@ function loop() {
         {
             enemy.dead = true; //the enemy died
             bullet.alive = false; //hide the bullet
-            frameNo += 100;
+            //frameNo += 100;
         }
 
         //bullet.alive=false;
@@ -424,6 +533,21 @@ function loop() {
     } else {
         player.isrunning = false;
     }
+    if (keys[32]) {
+        bullet.alive = true;
+        bullet.direction = player.direction;
+        bullet.x = player.x;
+        bullet.y = player.y + 4;
+
+        bullet.startedat = player.x;
+
+        if (player.direction == 0)
+            context.drawImage(playerthro1, player.x, player.y, player.width, player.height);
+        else
+            context.drawImage(playerthro0, player.x, player.y, player.width, player.height);
+        shootsound.play();
+
+    }
     player.x += player.velX;
     player.y += player.velY;
 
@@ -449,6 +573,19 @@ function loop() {
         player.velY = 0;
     }
 
+     for (var c = 0; c < Coins.length; c++) {
+
+        if (!Coins[c].got) {
+            if (collisionCheck(player, Coins[c], true)) {
+                Coins[c].got = true;
+               // frameNo += 200;
+                coinsound.play();
+            }
+
+        }
+    }
+
+
     if (enemy.grounded) {
         enemy.velY = 0;
     }
@@ -473,12 +610,29 @@ function loop() {
     if (!completed) {
         requestAnimationFrame(loop);
     }
-    context.drawImage(tree, canvas.width - 650, canvas.height - 310, 63, 72);
 
 
+     context.drawImage(grave, canvas.width - 400, canvas.height - 43  , 25, 40);
 
-    context.drawImage(tree, canvas.width - 650, canvas.height - 90, 63, 72);
+     context.drawImage(skull, canvas.width - 460, canvas.height - 43  , 25, 40);
+     context.drawImage(skull, canvas.width - 480, canvas.height - 43  , 25, 40);
 
+    context.drawImage(cross, canvas.width - 420, canvas.height - 43  , 33, 32);
+
+     context.drawImage(gate, canvas.width - 445, canvas.height - 60  , 35, 50);
+
+     context.drawImage(cross, canvas.width - 620, canvas.height - 43  , 33, 32);
+     context.drawImage(cross, canvas.width - 600, canvas.height - 43  , 33, 32);
+
+     context.drawImage(coffin, canvas.width - 550, canvas.height - 45  , 60, 30);
+
+    context.drawImage(bone, canvas.width - 600, canvas.height - 70  , 33, 62);
+
+     context.drawImage(bone, canvas.width - 500, canvas.height - 70  , 33, 62);
+
+       context.drawImage(tree, canvas.width - 660, canvas.height - 80, 63, 72);
+
+     context.drawImage(coffin, canvas.width - 600, canvas.height - 45  , 60, 30);
 }
 
 

@@ -32,7 +32,8 @@ var player = {
     color: "#00FF00",
     jumping: false,
     grounded: false,
-    jumpStrength: 7,
+    jumpStrength: 7
+
     draw: function () {
         context.fillStyle = this.color;
         context.fillRect(this.x, this.y, this.width, this.height);
