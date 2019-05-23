@@ -17,7 +17,7 @@ var levelsound = new Audio('sounds/levels/0.wav');
 var deathsound = new Audio('sounds/death.wav');
 var coinsound = new Audio('sounds/coin.wav');
 var completesound = new Audio('sounds/complete.wav');
-myScore = new component("10px", "Consolas", "white", 50, 20, "text");
+myScore = new component("10px", "Consolas", "white", 80, 40, "text");
 
 
 var coinImage = new Image();
@@ -133,8 +133,6 @@ function component(width, height, color, x, y, type) {
         }
     }
 }
-
-
 
 ///
 ///
@@ -642,7 +640,7 @@ function loop() {
     context.drawImage(background, 0, 0, 640, 360);
     context.drawImage(tree, canvas.width - 50, canvas.height - 80, 63, 72);
     context.drawImage(tree, canvas.width - 70, canvas.height - 80, 63, 72);
-
+context.drawImage(playerjauge, 0, 0, 130, 49);
     context.drawImage(tree, 100, canvas.height - 80, 63, 72);
     context.drawImage(tree2, 50, canvas.height - 80, 63, 72);
     context.drawImage(tree2, 140, canvas.height - 80, 63, 72);

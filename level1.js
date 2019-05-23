@@ -7,7 +7,7 @@ var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
 var myScore;
-var frameNo =document.getElementById('score').getAttribute('value');
+var frameNo =0;
 var gameo = false;
 
 //audios
@@ -17,7 +17,7 @@ var levelsound = new Audio('level1sound.mp3');
 var deathsound = new Audio('sounds/death.wav');
 var coinsound = new Audio('sounds/coin.wav');
 var completesound = new Audio('sounds/complete.wav');
-myScore = new component("10px", "Consolas", "white", 50, 20, "text");
+myScore = new component("10px", "Consolas", "white", 85, 40, "text");
 
 
 
@@ -488,7 +488,7 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
          completesound.play();
-        dynamicallyLoadScript("level2.js");
+        dynamicallyLoadScript("level3.js");
 
     }
     if (event.keyCode == 13 && gameo)
@@ -628,7 +628,7 @@ function loop() {
 
     clearCanvas();
     context.drawImage(background, 0, 0, 640, 360);
-
+context.drawImage(playerjauge, 30, 0, 130, 49);
     draw_castle();
     draw_platforms();
       draw_coins();

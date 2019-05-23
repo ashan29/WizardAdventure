@@ -17,7 +17,7 @@ var levelsound = new Audio('sounds/levels/0.wav');
 var deathsound = new Audio('sounds/death.wav');
 var coinsound = new Audio('sounds/coin.wav');
 var completesound = new Audio('sounds/complete.wav');
-myScore = new component("10px", "Consolas", "white", 50, 20, "text");
+myScore = new component("10px", "Consolas", "white", 60, 40, "text");
 
 
 var coinImage = new Image();
@@ -68,6 +68,7 @@ bull1.src = "player/"+ playerchoice +"/spell_"+ playerchoice +".png";
 var coin1 = new Image();
 coin1.src = "object/Coins_01.png";
 
+var Coins = [];
 var Coins = [];
 
 addCoins(90, 330, 15, 15, 10);

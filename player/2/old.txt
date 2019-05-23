@@ -174,17 +174,14 @@ var player = {
     }
 }
 var bluekey = {
-    x: 550,
-    y: 70,
+    x: 30,
+    y: 30,
     width: 50,
     height: 50,
-     speed: 2,
-    velX: 0,
-    velY: 0,
     ispicked: false,
     draw: function () {
         if (!this.ispicked)
-            context.drawImage(keyobject, this.x, this.y, this.width, this.height);
+            context.drawImage(keyobject, 550, 70, this.width, this.height);
     }
 }
 //buller only one now
@@ -629,10 +626,10 @@ function draw_platforms() {
                 break;
             case 11:
                 if (bluekey.ispicked)
-                    for (var p = 0; p < platforms.length; p++) {
-                        if (platforms[p].type === 11) {
-                            platforms.splice(p, 1);
-                            p--;
+                    for (var i = 0; i < platforms.length; i++) {
+                        if (platforms[i].type === 11) {
+                            //platforms.splice(i, 1);
+                           // i--;
                         }
                     }
         break;
@@ -687,8 +684,7 @@ function loop() {
     context.drawImage(background, 0, 0, 640, 360);
     context.drawImage(playerjauge, 0, 0, 130, 49);
     draw_platforms();
-if (!bluekey.ispicked)
-        bluekey.draw();
+
     draw_enemies();
     draw_tower();
     goal.draw();
@@ -698,7 +694,8 @@ if (!bluekey.ispicked)
     draw_ground();
     myScore.text = "SCORE: " + frameNo;
     myScore.update();
-
+    if (!bluekey.ispicked)
+        bluekey.draw();
 
 
     if (keys[38]) {
@@ -737,7 +734,7 @@ if (!bluekey.ispicked)
 
     player.grounded = false;
     for (var i = 0; i < platforms.length; i++) {
-        var direction = collisionCheck(player, platforms[i]);
+        var direction = collisionCheck(player, platforms[i], false);
 
         if (direction == "left" || direction == "right") {
             player.velX = 0;
@@ -755,13 +752,12 @@ if (!bluekey.ispicked)
     }
 
     if (!bluekey.ispicked)
-        {
-        if(collisionCheck(player, bluekey)) {
+        if (collisionCheck(player, keyobject, true)) {
             bluekey.ispicked = true;
         }
-        }
+
     if (!enemy.dead) { //check if the player touch the enemy
-        if (collisionCheck(player, enemy)) {
+        if (collisionCheck(player, enemy, true)) {
             gameover();
             return;
         }
@@ -804,7 +800,7 @@ function alertFunc() {
     }
 }
 
-/*function collisionCheck(character, platform, test) {
+function collisionCheck(character, platform, test) {
 
     this.less = 0;
     if (test)
@@ -853,7 +849,7 @@ function alertFunc() {
     }
 
     return collisionDirection;
-}*/
+}
 
 function FallCheck(character) {
 
@@ -870,45 +866,4 @@ function FallCheck(character) {
 
 function clearCanvas() {
     context.clearRect(0, 0, 640, 360);
-}
-function collisionCheck(character, platform) {
-
-    var vectorX = (character.x + (character.width / 2)) - (platform.x + (platform.width / 2));
-    var vectorY = (character.y + (character.height / 2)) - (platform.y + (platform.height / 2));
-
-    var halfWidths = (character.width / 2) + (platform.width / 2);
-    var halfHeights = (character.height / 2) + (platform.height / 2);
-
-    var collisionDirection = null;
-
-    if (Math.abs(vectorX) < halfWidths && Math.abs(vectorY) < halfHeights) {
-
-        var offsetX = halfWidths - Math.abs(vectorX);
-        var offsetY = halfHeights - Math.abs(vectorY);
-        if (offsetX < offsetY) {
-
-            if (vectorX > 0) {
-                collisionDirection = "left";
-                character.x += offsetX;
-            } else {
-                collisionDirection = "right";
-                character.x -= offsetX;
-            }
-
-        } else {
-
-            if (vectorY > 0) {
-                collisionDirection = "top";
-                character.y += offsetY;
-            } else {
-                collisionDirection = "bottom";
-                character.y -= offsetY;
-            }
-
-        }
-
-    }
-
-    return collisionDirection;
-
 }
