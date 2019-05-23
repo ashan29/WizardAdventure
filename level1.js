@@ -7,7 +7,7 @@ var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
 var myScore;
-var frameNo = 0;
+var frameNo =document.getElementById('score').getAttribute('value');
 var gameo = false;
 
 //audios

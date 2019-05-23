@@ -7,7 +7,7 @@ var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
 
-var frameNo =0;
+var frameNo = 0;
 var gameo = false;
 
 //audios
@@ -43,8 +43,6 @@ imagTroll4.src = "character_troll_west_running_2.png";
 
 
 var playerchoice = document.getElementById('player').getAttribute('value');
-var playerjauge = new Image();
-playerjauge.src = "player/" + playerchoice + "/portrait_" + playerchoice + ".png";
 var player1 = new Image();
 player1.src = "player/" + playerchoice + "/character_" + playerchoice + "_east.png";
 var player2 = new Image();
@@ -62,7 +60,7 @@ playerthro0.src = "player/" + playerchoice + "/character_" + playerchoice + "_ea
 var playerthro1 = new Image();
 playerthro1.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_casting.png";
 var bull1 = new Image();
-bull1.src = "player/"+ playerchoice +"/spell_"+ playerchoice +".png";
+bull1.src = "player/1/spell_1_mia_1.png";
 
 
 var coin1 = new Image();
@@ -185,14 +183,14 @@ var bullet = {
     //move the buller for 50
     move: function () {
         if (this.direction == 0) {
-            if (this.x > this.startedat - 70) {
+            if (this.x > this.startedat - 100) {
                 this.x += -this.speed;
             } else {
                 this.alive = false;
             }
 
         } else {
-            if (this.x < this.startedat + 70) {
+            if (this.x < this.startedat + 100) {
                 this.x += +this.speed;
             } else {
                 this.alive = false;
@@ -285,7 +283,7 @@ var enemy = {
 
 }
 var enemy2 = {
-    x: canvas.width-200,
+    x: canvas.width - 200,
     y: canvas.height - 45,
     startyposi: (canvas.width - 380),
     width: 40,
@@ -297,7 +295,7 @@ var enemy2 = {
     dead: false,
     jumping: false,
     grounded: false,
-    direction: 0,
+    direction: 1,
     jumpStrength: 7,
     img: true,
     wait: true,
@@ -318,7 +316,7 @@ var enemy2 = {
                     context.drawImage(imagTroll2, this.x, this.y, this.width, this.height);
                 }
             }
-            if ((new Date().getTime() - this.start) > 400) {
+            if ((new Date().getTime() - this.start) > 500) {
                 this.wait = !this.wait;
                 this.start = new Date().getTime();
             }
@@ -450,6 +448,21 @@ platforms.push({
 
 // Left Wall
 platforms.push({
+    x: canvas.width / 2,
+    y: canvas.height / 2 + 70,
+    width: 100,
+    height: 10,
+    type: 1,
+});
+platforms.push({
+    x: canvas.width / 2 - 80,
+    y: canvas.height / 2 + 90,
+    width: 100,
+    height: 10,
+    type: 1,
+});
+// Left Wall
+platforms.push({
     x: canvas.width,
     x: canvas.width,
     y: 0,
@@ -467,6 +480,10 @@ platforms.push({
     type: 0,
 });
 
+addCoins(canvas.width / 2 - 80, canvas.height / 2 + 67, 15, 15, 4);
+
+addCoins(canvas.width / 2 - 80, canvas.height / 2 + 67, 15, 15, 4);
+
 //to start the game
 document.body.addEventListener("keydown", function (event) {
 
@@ -476,8 +493,8 @@ document.body.addEventListener("keydown", function (event) {
     }
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
-         completesound.play();
-        dynamicallyLoadScript("level0b.js");
+        completesound.play();
+        dynamicallyLoadScript("level1.js");
 
     }
     if (event.keyCode == 13 && gameo)
@@ -501,7 +518,7 @@ function startGame() {
     levelsound.play();
     //  ;
     enemy.draw();
-  enemy2.draw();
+    enemy2.draw();
 
     requestAnimationFrame(loop);
 
@@ -512,7 +529,7 @@ function startGame() {
 function complete() {
     clearCanvas();
     completed = true;
-  document.getElementById('score').setAttribute("value", frameNo);
+    document.getElementById('score').setAttribute("value", frameNo);
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
@@ -623,8 +640,8 @@ function loop() {
     context.drawImage(background, 0, 0, 640, 360);
     context.drawImage(tree, canvas.width - 50, canvas.height - 80, 63, 72);
     context.drawImage(tree, canvas.width - 70, canvas.height - 80, 63, 72);
-    context.drawImage(playerjauge, 0, 0, 130, 49);
-    context.drawImage(tree, 200, canvas.height - 80, 63, 72);
+
+    context.drawImage(tree, 100, canvas.height - 80, 63, 72);
     context.drawImage(tree2, 50, canvas.height - 80, 63, 72);
     context.drawImage(tree2, 140, canvas.height - 80, 63, 72);
 
@@ -640,20 +657,33 @@ function loop() {
         enemy.draw();
         enemy.move();
     }
-
+    if (!enemy2.dead) {
+        enemy2.draw();
+        enemy2.move();
+    }
 
     player.draw();
     goal.draw();
     if (bullet.alive) {
         bullet.draw();
         bullet.move();
-        if (collisionCheck(bullet, enemy, false)) //check if the bullet touch an enemy
-        {
-            enemy.dead = true; //the enemy died
-            bullet.alive = false; //hide the bullet
-            frameNo += 500;
+        if (!enemy.dead) {
+            if (collisionCheck(bullet, enemy, false)) //check if the bullet touch an enemy
+            {
+                enemy.dead = true; //the enemy died
+                bullet.alive = false; //hide the bullet
+                frameNo += 500;
+            }
         }
-
+        bullet.move();
+        if (!enemy2.dead) {
+            if (collisionCheck(bullet, enemy2, false)) //check if the bullet touch an enemy
+            {
+                enemy2.dead = true; //the enemy died
+                bullet.alive = false; //hide the bullet
+                frameNo += 500;
+            }
+        }
         //bullet.alive=false;
     }
 
@@ -757,7 +787,12 @@ function loop() {
             return;
         }
     }
-
+    if (!enemy2.dead) { //check if the player touch the enemy
+        if (collisionCheck(player, enemy2, true)) {
+            gameover();
+            return;
+        }
+    }
     if (FallCheck(player)) { //check if the player fall from one  of the plateform
         gameover();
         return;
