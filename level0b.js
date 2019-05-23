@@ -11,12 +11,12 @@ var frameNo =Number(document.getElementById('score').getAttribute('value'));
 var gameo = false;
 
 //audios
-var jumpsound = new Audio('jump_11.wav');
-var shootsound = new Audio('Fireball2.mp3');
-var levelsound = new Audio('sounds/levels/0.wav');
-var deathsound = new Audio('sounds/death.wav');
-var coinsound = new Audio('sounds/coin.wav');
-var completesound = new Audio('sounds/complete.wav');
+var jumpsound = new Audio('Sound/jump_11.wav');
+var shootsound = new Audio('Sound/Fireball2.mp3');
+var levelsound = new Audio('Sound/levels/0.wav');
+var deathsound = new Audio('Sound/death.wav');
+var coinsound = new Audio('Sound/coin.wav');
+var completesound = new Audio('Sound/complete.wav');
 myScore = new component("10px", "Consolas", "white", 80, 40, "text");
 
 
@@ -27,22 +27,22 @@ var imggoal = new Image();
 imggoal.src = "object/medievalTile_059.png";
 
 var background = new Image();
-background.src = "Forest_BG0.png";
+background.src = "Images/Forest_BG0.png";
 
 
 
 //troll
 var imagTroll1 = new Image();
-imagTroll1.src = "character_troll_east_running_1.png";
+imagTroll1.src = "Images/character_troll_east_running_1.png";
 var imagTroll2 = new Image();
-imagTroll2.src = "character_troll_east_running_2.png";
+imagTroll2.src = "Images/character_troll_east_running_2.png";
 var imagTroll3 = new Image();
-imagTroll3.src = "character_troll_west_running_1.png";
+imagTroll3.src = "Images/character_troll_west_running_1.png";
 var imagTroll4 = new Image();
-imagTroll4.src = "character_troll_west_running_2.png";
+imagTroll4.src = "Images/character_troll_west_running_2.png";
 
 
-var playerchoice = document.getElementById('player').getAttribute('value');
+var playerchoice = localStorage.getItem('characterValue');
 var playerjauge = new Image();
 playerjauge.src = "player/" + playerchoice + "/portrait_" + playerchoice + ".png";
 var player1 = new Image();

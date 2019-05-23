@@ -8,13 +8,13 @@ var gravity = 0.98;
 var completed = false;
 var gameo = false;
 //audios
-var jumpsound = new Audio('jump_11.wav');
-var shootsound = new Audio('shoot.wav');
-var coinsound = new Audio('sounds/coin.wav');
-var levelsound = new Audio('sounds/Camille_Saint-Saens-Aquarium.oga');
+var jumpsound = new Audio('Sound/jump_11.wav');
+var shootsound = new Audio('Sound/shoot.wav');
+var coinsound = new Audio('Sound/coin.wav');
+var levelsound = new Audio('Sound/Camille_Saint-Saens-Aquarium.oga');
 
 var background = new Image();
-background.src = "background.jpg";
+background.src = "Images/background.jpg";
 
 var imggoal = new Image();
 imggoal.src = "object/hauntedhouse .png";
@@ -32,13 +32,13 @@ moon.src = "object/Moon.png";
 
 //troll
 var imagTroll1 = new Image();
-imagTroll1.src = "character_ghost_east.png";
+imagTroll1.src = "Images/character_ghost_east.png";
 var imagTroll2 = new Image();
-imagTroll2.src = "character_ghost_east.png";
+imagTroll2.src = "Images/character_ghost_east.png";
 var imagTroll3 = new Image();
-imagTroll3.src = "character_ghost_west.png";
+imagTroll3.src = "Images/character_ghost_west.png";
 var imagTroll4 = new Image();
-imagTroll4.src = "character_ghost_west.png";
+imagTroll4.src = "Images/character_ghost_west.png";
 
 var bone = new Image();
 bone.src = "object/bone.png"
@@ -62,7 +62,7 @@ grave.src = "object/grave2.png"
 
 
 
-var playerchoice = document.getElementById('player').getAttribute('value');
+var playerchoice = localStorage.getItem('characterValue');
 var player1 = new Image();
 player1.src = "player/" + playerchoice + "/character_" + playerchoice + "_east.png";
 var player2 = new Image();
