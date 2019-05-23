@@ -43,6 +43,8 @@ imagTroll4.src = "character_troll_west_running_2.png";
 
 
 var playerchoice = document.getElementById('player').getAttribute('value');
+var playerjauge = new Image();
+playerjauge.src = "player/" + playerchoice + "/portrait_" + playerchoice + ".png";
 var player1 = new Image();
 player1.src = "player/" + playerchoice + "/character_" + playerchoice + "_east.png";
 var player2 = new Image();
@@ -60,7 +62,7 @@ playerthro0.src = "player/" + playerchoice + "/character_" + playerchoice + "_ea
 var playerthro1 = new Image();
 playerthro1.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_casting.png";
 var bull1 = new Image();
-bull1.src = "player/1/spell_1_mia_1.png";
+bull1.src = "player/"+ playerchoice +"/spell_"+ playerchoice +".png";
 
 
 var coin1 = new Image();
