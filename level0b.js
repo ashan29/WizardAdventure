@@ -7,7 +7,7 @@ var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
 
-var frameNo = 0;
+var frameNo =Number(document.getElementById('score').getAttribute('value'));
 var gameo = false;
 
 //audios
@@ -494,6 +494,7 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
         completesound.play();
+           document.getElementById('score').setAttribute('value', frameNo);
         dynamicallyLoadScript("level1.js");
 
     }

@@ -478,6 +478,7 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
          completesound.play();
+        document.getElementById("score").value = frameNo;
         dynamicallyLoadScript("level0b.js");
 
     }
@@ -513,7 +514,7 @@ function startGame() {
 function complete() {
     clearCanvas();
     completed = true;
-  document.getElementById('score').setAttribute("value", frameNo);
+    document.getElementById('score').setAttribute('value', frameNo);
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
