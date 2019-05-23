@@ -1,0 +1,41 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 60% auto;
+    grid-template-areas: "entete entete"
+                         "contenu boxdroite"
+                         "pied pied";
+
+		 margin-bottom:100px;
+}
+
+body > header {
+    grid-area: entete;
+}
+
+#articles {
+    grid-area: contenu;
+}
+
+aside {
+    grid-area: boxdroite;
+    box-shadow: 8px 8px 12px #aaa;
+    float: right;
+	vertical-align: top;
+	height: 150px;
+	width: 250px;
+
+}
+
+footer {
+    grid-area: pied;
+	bottom: 0px;
+	width: 100%;
+	background-color: #454545;
+}

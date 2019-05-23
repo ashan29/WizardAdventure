@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>624-2 - HTML/CSS/JavaScript</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="ressources/css/style.css">
+    <link rel="stylesheet" href="ressources/css/layout_description.css">
+    <link rel="stylesheet" href="ressources/css/mobile.css">
+</head>
+<body id="body">
+
+<header>
+    <h1>HES-SO Vs - 624-2 - HTML/CSS/JavaScript</h1>
+    <nav>
+        <ul>
+            <li class="hamburger">
+                <img src="ressources/images/hamburger_icon.svg">
+            </li>
+            <li>
+                <a href="description.html" id="description">Description</a>
+            </li>
+            <li>
+                <a href="maquettes.html">Maquettes</a>
+            </li>
+            <li>
+                <a href="mockup.html">Mockup</a>
+            </li>
+            <li>
+                <a href="flux.html">Flux</a>
+            </li>
+            <li>
+                <a href="journal_de_bord.html">Journal de bord</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="articles">
+
+
+
+
+        <article>
+            <header>
+                <h2>Jouez à notre jeu</h2>
+                <p style="text-align: right">Par Nelson, Romain et Ashan</p>
+            </header>
+
+				<div id="myscor"></div>
+				    <image visible=false src="player/1/character_1_east.png" draggable="true" ondragstart="drag(event)" value="1" id="1"/>
+					<image visible=false src="player/2/character_2_east.png" draggable="true" ondragstart="drag(event)" value="2" id="2"/>
+					<image visible=false src="player/3/character_3_east.png" draggable="true" ondragstart="drag(event)" value="3" id="3"/>
+
+	</br>
+	<canvas id="game" width="640" height="360" ondrop="drop(event)" ondragover="allowDrop(event)"></canvas><br/>
+	<input type=text pattern="[a-zA-Z]*" id=playerNameValue placeholder="Enter player name."/>
+	<div id="score" value="0"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script id="firstmenu" type="text/javascript" src="game.js"></script>
+
+<div id="background"></div>
+        </article>
+    </section>
+</main>
+
+
+
+
+
+    <footer>
+        <img id="logo" src="ressources/images/logo.png">
+    </footer>
+
+</body>
+</html>

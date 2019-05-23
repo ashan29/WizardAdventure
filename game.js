@@ -32,7 +32,7 @@ otherCountryFlag.src="Images/unknowncountry.png";
 var elipse = new Image();
 elipse.src="Images/character/ellipse.png";
 
-localStorage.setItem('playername','defaultname');
+
 
 
 var hoverButton = false;
@@ -107,8 +107,8 @@ function drag(ev) {
 function drop(ev) {
   ev.preventDefault();
   var data = ev.dataTransfer.getData("text");
-  ev.target.appendChild(document.getElementById(data));
   console.log("DATA :" + data);
+    characterValue=Number(data);
 
 }
 
@@ -231,6 +231,8 @@ document.body.addEventListener("keydown", function (event) {
          localStorage.setItem('characterValue',characterValue);
          dynamicallyLoadScript('level0.js');
          gameLaunched = true;
+         var name=document.getElementById("playerNameValue").value;
+    localStorage.setItem('playername',name);
          return;
 
      }

@@ -8,13 +8,14 @@ body
 {
 	display:flex;
 	flex-direction: column;
-	font-family: Comic Sans MS, Comic Sans;
+	font-family: Calibri, Comic Sans;
 	height: 100%;
 	width: 100%
 }
 body>header{
 	display: inline-flex;
 	flex-direction: column;
+	font-weight: bold;
 }
 
 main
@@ -90,6 +91,13 @@ ul li.active {
   background-color: white;
 	color;
     }
+
+
+	ul li.active a {
+  background-color: white;
+	color: black;
+    }
+
 aside {
     min-width: 200px;
     padding:20px
