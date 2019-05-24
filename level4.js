@@ -7,37 +7,56 @@ var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
 var myScore;
-var frameNo = 0;
+var frameNo=0;
 var gameo = false;
-
+var levelno=2;
+var leveltitle="The castle part 1 ";
 //audios
-var jumpsound = new Audio('jump_11.wav');
-var shootsound = new Audio('Fireball2.mp3');
-var levelsound = new Audio('level1sound.mp3');
-var deathsound = new Audio('sounds/death.wav');
-var coinsound = new Audio('sounds/coin.wav');
-var completesound = new Audio('sounds/complete.wav');
+var jumpsound = new Audio('Sound/jump_11.wav');
+var shootsound = new Audio('Sound/Fireball2.mp3');
+var levelsound = new Audio('Sound/harry.mp3');
+var deathsound = new Audio('Sound/death.wav');
+var coinsound = new Audio('Sound/coin.wav');
+var completesound = new Audio('Sound/complete.wav');
 myScore = new component("10px", "Consolas", "white", 50, 20, "text");
 
-
+//var playerName = new component("10px", "Consolas", "white", 83, 22, "text");
+//var playerNameText=localStorage.setItem('playername','defaultname');
 
 var imggoal = new Image();
-imggoal.src = "object/medievalTile_059.png";
+imggoal.src = "object/grade3.png";
+
+var princess = new Image();
+princess.src = "object/princess.png";
 
 var background = new Image();
-background.src = "level4background.jpg";
+background.src = "object/purplewall.jpg";
 
+var keyobject = new Image();
+keyobject.src = "object/goldkey.png";
+var myScore = new component("10px", "Consolas", "white", 80, 40, "text");
+
+var playerName = new component("10px", "Consolas", "white", 83, 22, "text");
+var playerNameText=localStorage.getItem('playername');
+var playerchoice = localStorage.getItem('characterValue');
+var playerjauge = new Image();
+playerjauge.src = "player/" + playerchoice + "/portrait_" + playerchoice + ".png";
 
 
 //troll
 var imagTroll1 = new Image();
-imagTroll1.src = "character_troll_east_running_1.png";
+imagTroll1.src = "Images/character_ghost_east.png";
 var imagTroll2 = new Image();
-imagTroll2.src = "character_troll_east_running_2.png";
+imagTroll2.src = "Images/character_ghost_east.png";
 var imagTroll3 = new Image();
-imagTroll3.src = "character_troll_west_running_1.png";
+imagTroll3.src = "Images/character_ghost_west.png";
 var imagTroll4 = new Image();
-imagTroll4.src = "character_troll_west_running_2.png";
+imagTroll4.src = "Images/character_ghost_west.png";
+
+var torche = new Image();
+torche.src = "object/fire.gif";
+
+
 
 
 var coinImage = new Image();
@@ -68,7 +87,7 @@ function addCoins(startx, posy, w, h, nbr) {
 }
 
 
-var playerchoice = document.getElementById('player').getAttribute('value');
+var playerchoice ="2";
 var player1 = new Image();
 player1.src = "player/" + playerchoice + "/character_" + playerchoice + "_east.png";
 var player2 = new Image();
@@ -87,7 +106,8 @@ var playerthro1 = new Image();
 playerthro1.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_casting.png";
 
 var bull1 = new Image();
-bull1.src = "player/1/spell_1_mia_1.png";
+bull1.src = "player/"+ playerchoice +"/spell_"+ playerchoice +".png";
+
 
 
 var tree = new Image();
@@ -95,7 +115,7 @@ tree.src = "object/foliagePack_008.png";
 var grass = new Image();
 grass.src = "object/tile_grass_cliff_north.png";
 var cliff = new Image();
-cliff.src = "object/grass_half_round.png";
+cliff.src = "object/greywall.jpg";
 var mud = new Image();
 mud.src = "object/mud_square.png";
 
@@ -104,10 +124,18 @@ wall.src = "object/medievalTile_019.png";
 var wall2 = new Image();
 wall2.src = "object/medievalTile_065.png";
 
+var gate = new Image();
+gate.src = "object/medievalTile_065.png";
+
 
 var sign = new Image();
 sign.src = "object/object_sign.png";
 
+var sign = new Image();
+sign.src = "object/object_sign.png";
+
+var shield = new Image();
+shield.src = "object/shield.png";
 
 function component(width, height, color, x, y, type) {
     this.type = type;
@@ -138,8 +166,8 @@ function component(width, height, color, x, y, type) {
 /////
 //player
 var player = {
-    x: canvas.width - 170,
-    y: canvas.height - 80,
+    x:  170,
+    y:  80,
     width: 40,
     height: 40,
     speed: 2,
@@ -197,8 +225,8 @@ var bullet = {
 
 //enemy only one now
 var enemy = {
-    x: canvas.width - 380,
-    y: canvas.height - 280,
+    x: canvas.width - 80,
+    y: canvas.height - 242,
     startyposi: (canvas.width - 380),
     width: 40,
     height: 40,
@@ -259,14 +287,14 @@ var enemy = {
     //move auto
     move: function () {
         if (this.direction == 0) { //0 left to right
-            if (this.x < ((canvas.width - 380) + 120 - this.width)) {
+            if (this.x < ((canvas.width - 100) + 120 - this.width)) {
                 this.x += +0.5;
             } else {
                 //he reach the end of the platform
                 this.direction = 1; //going back
             }
         } else { // 1 right to left
-            if (this.x > ((canvas.width - 380))) {
+            if (this.x > ((canvas.width - 120))) {
                 this.x += -0.5;
             } else {
                 this.direction = 0;
@@ -288,15 +316,32 @@ function sleep(milliseconds) {
     }
 }
 
+
+var bluekey = {
+    x: 550,
+    y: 70,
+    width: 50,
+    height: 50,
+     speed: 2,
+    velX: 0,
+    velY: 0,
+    ispicked: false,
+    draw: function () {
+        if (!this.ispicked)
+            context.drawImage(keyobject, this.x, this.y, this.width, this.height);
+    }
+}
+
 //where is the gate to go to the next level
 var goal = {
-    x: canvas.width - 87,
-    y: 55,
-    width: 40,
-    height: 40,
+    x: canvas.width - 640,
+    y: 15,
+    width: 50,
+    height: 70,
     color: "#0098cb",
     draw: function () {
         context.drawImage(imggoal, this.x, this.y, this.width, this.height);
+
         //context.fillStyle = this.color;
         // context.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -311,77 +356,11 @@ var platform_height = 10;
 
 
 
-platforms.push({
-    x: canvas.width - 20,
-    y: 100,
-    width: 30,
-    height: platform_height,
-    type: 3,
-});
-platforms.push({
-    x: canvas.width - 50,
-    y: 100,
-    width: 30,
-    height: platform_height,
-    type: 3,
-});
-platforms.push({
-    x: canvas.width - 80,
-    y: 100,
-    width: 30,
-    height: platform_height,
-    type: 3,
-});
-platforms.push({
-    x: canvas.width - 100,
-    y: 100,
-    width: 30,
-    height: platform_height,
-    type: 3,
-});
-
-platforms.push({
-    x: canvas.width - 130,
-    y: 100,
-    width: 30,
-    height: platform_height,
-    type: 3,
-});
-platforms.push({
-    x: canvas.width - 160,
-    y: 100,
-    width: 30,
-    height: platform_height,
-    type: 4,
-});
 
 
 
-platforms.push({
-    x: canvas.width - 20,
-    y: 57,
-    width: 30,
-    height: platform_height,
-    type: 4,
-});
 
-platforms.push({
-    x: canvas.width - 50,
-    y: 57,
-    width: 30,
-    height: platform_height,
-    type: 4,
-});
-platforms.push({
-    x: canvas.width - 80,
-    y: 57,
-    width: 30,
-    height: platform_height,
-    type: 4,
-});
-
-
-
+/*
 function draw_castle() {
 
     var placeyy = 120;
@@ -399,35 +378,121 @@ function draw_castle() {
 
 }
 
+*/
+
+
+
 
 
 
 
 platforms.push({
-    x: canvas.width - 170,
-    y: canvas.height - 50,
-    width: 250,
-    height: 150,
-
-    type: 1,
+    x: 0,
+    y: canvas.height - 270,
+    width: 60,
+    height: 20,
 });
+
+
+platforms.push({
+    x: 210,
+    y: canvas.height - 40,
+    width: 60,
+    height: 20,
+});
+
+platforms.push({
+    x: 120,
+    y: canvas.height - 40,
+    width: 70,
+    height: 20,
+});
+
+platforms.push({
+    x: 300,
+    y: canvas.height - 30,
+    width: 60,
+    height: 20,
+});
+
+
+platforms.push({
+    x: canvas.width - 150,
+    y: canvas.height - 200,
+    width: 150,
+    height: platform_height,
+});
+
+platforms.push({
+    x: canvas.width - 560,
+    y: canvas.height -150,
+    width: platform_width,
+    height: platform_height,
+});
+
+platforms.push({
+    x: canvas.width - 500,
+    y: canvas.height -200,
+    width: platform_width,
+    height: platform_height,
+});platforms.push({
+    x: canvas.width - 330,
+    y: canvas.height - 280,
+    width: 150,
+    height: 30,
+});
+
 
 
 platforms.push({
     x: canvas.width - 220,
     y: canvas.height - 50,
-    width: 250,
-    height: 150,
+    width: 200,
+    height: 15,
 });
+
 platforms.push({
     x: 0,
     y: canvas.height - 70,
-    width: 350,
-    height: 200,
+    width: 100,
+    height: 20,
 });
+
+
+
 platforms.push({
-    x: canvas.width - 380,
-    y: canvas.height - 240,
+    x: 0,
+    y: canvas.height - 270,
+    width: 60,
+    height: 20,
+});
+
+
+platforms.push({
+    x: 210,
+    y: canvas.height - 40,
+    width: 60,
+    height: 20,
+});
+
+platforms.push({
+    x: 120,
+    y: canvas.height - 40,
+    width: 70,
+    height: 20,
+});
+
+platforms.push({
+    x: 300,
+    y: canvas.height - 30,
+    width: 60,
+    height: 20,
+});
+
+
+platforms.push({
+    x: canvas.width - 150,
+    y: canvas.height - 200,
     width: 150,
     height: platform_height,
 });
@@ -456,25 +521,6 @@ platforms.push({
 });*/
 
 // Left Wall
-platforms.push({
-    x: -10,
-    y: 0,
-    width: 10,
-    height: canvas.height,
-    type: 0,
-});
-
-// Left Wall
-platforms.push({
-    x: canvas.width,
-    x: canvas.width,
-    y: 0,
-    width: 10,
-    height: canvas.height,
-    type: 0,
-});
-
-
 
 //to start the game
 document.body.addEventListener("keydown", function (event) {
@@ -486,7 +532,7 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
          completesound.play();
-        dynamicallyLoadScript("level2.js");
+        dynamicallyLoadScript("level3.js");
 
     }
     if (event.keyCode == 13 && gameo)
@@ -584,38 +630,58 @@ function draw_platforms() {
                 // code block
                 break;
             case 1:
-                context.drawImage(mud, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+                /*context.drawImage(mud, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);*/
                 context.lineWidth = 5;
                 context.strokeStyle = "#90D030";
-                context.drawImage(cliff, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+               // context.drawImage(cliff, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
                 break;
             case 3:
-                context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);
+                /*context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);*/
                 context.lineWidth = 5;
                 context.strokeStyle = "#90D030";
-                context.drawImage(wall, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+               /* context.drawImage(wall, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);*/
                 break;
             case 4:
-                context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);
+               /* context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);*/
                 context.lineWidth = 5;
                 context.strokeStyle = "#90D030";
-                context.drawImage(wall, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+               /* context.drawImage(wall, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);*/
                 break;
             case 5:
-                context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);
+              /*  context.drawImage(wall2, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height + 30);*/
                 context.lineWidth = 5;
                 context.strokeStyle = "#90D030";
                 break;
             default:
-                context.drawImage(mud, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+            /*    context.drawImage(mud, platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);*/
                 context.lineWidth = 5;
                 context.strokeStyle = "#90D030";
-                context.drawImage(cliff, platforms[i].x, platforms[i].y - 7, platforms[i].width, 20);
+                context.drawImage(cliff, platforms[i].x, platforms[i].y - 7, platforms[i].width, platforms[i].height);
                 break;
         }
 
     }
 }
+
+function draw_elements(){
+
+    context.drawImage(shield, canvas.width - 450, canvas.height - 315, 65, 62);
+
+    context.drawImage(torche, canvas.width - 500, canvas.height - 265, 25, 82);
+
+     context.drawImage(torche, canvas.width - 470, canvas.height - 265, 25, 82);
+
+     context.drawImage(torche, canvas.width - 490, canvas.height - 265, 25, 82);
+
+     context.drawImage(torche, canvas.width - 400, canvas.height - 265, 25, 82);
+
+
+
+
+}
+
+
+
 
 
 //loop the game
@@ -627,11 +693,22 @@ function loop() {
     clearCanvas();
     context.drawImage(background, 0, 0, 640, 360);
 
-    draw_castle();
+
+    myScore.text = "SCORE: " + frameNo;
+    myScore.update();
+
+
+    playerName.text=playerNameText;
+    playerName.update();
+
+
+    context.drawImage(playerjauge, 0, 0, 130, 49);
+     draw_elements();
+    //draw_castle();
     draw_platforms();
       draw_coins();
     //context.drawImage(tree, canvas.width - 170, canvas.height - 100, 63, 72);
-    context.drawImage(sign, canvas.width - 150, canvas.height - 90, 30, 45);
+   // context.drawImage(sign, canvas.width - 150, canvas.height - 90, 30, 45);
     myScore.text = "SCORE: " + frameNo;
     myScore.update();
 
@@ -641,7 +718,15 @@ function loop() {
     }
 
     player.draw();
-    goal.draw();
+    context.drawImage(princess, 10, 25, 30, 60);
+     if (!bluekey.ispicked)
+        {
+
+              bluekey.draw();
+      goal.draw();
+        }
+
+
     if (bullet.alive) {
         bullet.draw();
         bullet.move();
@@ -724,6 +809,13 @@ function loop() {
         player.velY = 0;
     }
 
+       if (!bluekey.ispicked)
+        {
+        if(collisionCheck(player, bluekey)) {
+            bluekey.ispicked = true;
+        }
+        }
+
     for (var c = 0; c < Coins.length; c++) {
 
         if (!Coins[c].got) {
@@ -761,9 +853,8 @@ function loop() {
         requestAnimationFrame(loop);
     }
 
-    context.drawImage(tree, canvas.width - 50, canvas.height - 125, 63, 72);
-    context.drawImage(tree, canvas.width - 70, canvas.height - 125, 63, 72);
-
+   // context.drawImage(tree, canvas.width - 50, canvas.height - 125, 63, 72);
+   // context.drawImage(tree, canvas.width - 70, canvas.height - 125, 63, 72);
 
 
 

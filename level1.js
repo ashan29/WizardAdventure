@@ -9,7 +9,8 @@ var completed = false;
 var myScore;
 var frameNo  =Number(document.getElementById('score').getAttribute('value'));
 var gameo = false;
-
+var levelno=2;
+var leveltitle="The castle part 1 ";
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
 var shootsound = new Audio('Sound/Fireball2.mp3');
@@ -18,7 +19,8 @@ var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
 var completesound = new Audio('Sound/complete.wav');
 myScore = new component("10px", "Consolas", "black", 85, 40, "text");
-
+var playerName = new component("10px", "Consolas", "black", 93, 22, "text");
+var playerNameText=localStorage.getItem('playername');
 
 
 var imggoal = new Image();
@@ -488,6 +490,7 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
          completesound.play();
+         document.getElementById('score').setAttribute('value', frameNo);
         dynamicallyLoadScript("level3.js");
 
     }
@@ -528,19 +531,32 @@ function startGame() {
 
 
 }
+intro_screen();
 
+function intro_screen() {
+    clearCanvas();
+    context.drawImage(background, 0, 0, 640, 360);
+    context.font = "50px Impact";
+    context.fillStyle = "#0099CC";
+    context.textAlign = "center";
+    context.fillText("Level "+levelno, canvas.width / 2, canvas.height / 2);
+    context.fillText(leveltitle, canvas.width / 2, canvas.height / 2+70);
+    context.font = "20px Arial";
+    context.fillText("Press Enter To Start", canvas.width / 2, canvas.height / 2 + 150);
+
+}
 //the player complete the level
 function complete() {
     clearCanvas();
     completed = true;
- completesound.play();
+
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
-    context.fillText("Congrats! You've Won!", canvas.width / 2, canvas.height / 2);
-
+    context.fillText("Congrats!", canvas.width / 2, canvas.height / 2);
+context.fillText("You've passed the level "+levelno, canvas.width / 2, canvas.height / 2+50);
     context.font = "20px Arial";
-    context.fillText("Press Enter to Play Again", canvas.width / 2, canvas.height / 2 + 50);
+    context.fillText("Press Enter to continue", canvas.width / 2, canvas.height / 2 + 100);
 
 
 }
@@ -628,7 +644,7 @@ function loop() {
 
     clearCanvas();
     context.drawImage(background, 0, 0, 640, 360);
-context.drawImage(playerjauge, 30, 0, 130, 49);
+context.drawImage(playerjauge, 0, 0, 130, 49);
     draw_castle();
     draw_platforms();
       draw_coins();
@@ -636,7 +652,8 @@ context.drawImage(playerjauge, 30, 0, 130, 49);
     context.drawImage(sign, canvas.width - 150, canvas.height - 90, 30, 45);
     myScore.text = "SCORE: " + frameNo;
     myScore.update();
-
+ playerName.text=playerNameText;
+    playerName.update();
     if (!enemy.dead) {
         enemy.draw();
         enemy.move();

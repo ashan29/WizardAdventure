@@ -6,7 +6,8 @@ var keys = [];
 var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
-
+var levelno=1;
+var leveltitle="The forest part 1 bis";
 var frameNo =Number(document.getElementById('score').getAttribute('value'));
 var gameo = false;
 
@@ -29,7 +30,8 @@ imggoal.src = "object/medievalTile_059.png";
 var background = new Image();
 background.src = "Images/Forest_BG0.png";
 
-
+var playerName = new component("10px", "Consolas", "white", 83, 22, "text");
+var playerNameText=localStorage.getItem('playername');
 
 //troll
 var imagTroll1 = new Image();
@@ -416,9 +418,19 @@ function draw_ground() {
 
 }
 
+function intro_screen() {
+    clearCanvas();
 
 
+    context.font = "50px Impact";
+    context.fillStyle = "#0099CC";
+    context.textAlign = "center";
+    context.fillText("Level "+levelno, canvas.width / 2, canvas.height / 2);
+    context.fillText(leveltitle, canvas.width / 2, canvas.height / 2+70);
+    context.font = "20px Arial";
+    context.fillText("Press Enter To Start", canvas.width / 2, canvas.height / 2 + 150);
 
+}
 
 platforms.push({
     x: 0,
@@ -528,16 +540,16 @@ function startGame() {
 
 //the player complete the level
 function complete() {
-    clearCanvas();
+  clearCanvas();
     completed = true;
-    document.getElementById('score').setAttribute("value", frameNo);
+    document.getElementById('score').setAttribute('value', frameNo);
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
-    context.fillText("Congrats! You've Won!", canvas.width / 2, canvas.height / 2);
-
+    context.fillText("Congrats!", canvas.width / 2, canvas.height / 2);
+context.fillText("You've passed the level "+levelno, canvas.width / 2, canvas.height / 2+50);
     context.font = "20px Arial";
-    context.fillText("Press Enter to Play Again", canvas.width / 2, canvas.height / 2 + 50);
+    context.fillText("Press Enter to continue", canvas.width / 2, canvas.height / 2 + 100);
 
 
 }
@@ -653,7 +665,8 @@ context.drawImage(playerjauge, 0, 0, 130, 49);
     context.drawImage(sign, 40, canvas.height - 55, 30, 45);
     myScore.text = "SCORE: " + frameNo;
     myScore.update();
-
+ playerName.text=playerNameText;
+    playerName.update();
     if (!enemy.dead) {
         enemy.draw();
         enemy.move();
