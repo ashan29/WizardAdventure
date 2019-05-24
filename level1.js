@@ -492,6 +492,7 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
          completesound.play();
+        frameNo = frameNo.toString();
          document.getElementById('score').setAttribute('value', frameNo);
         dynamicallyLoadScript("level4.js");
 

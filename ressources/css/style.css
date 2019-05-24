@@ -17,6 +17,9 @@ h1{
 	display: none;
 }
 
+
+#body {margin: 0; height: 100%; overflow: hidden}
+
 h2 {
     padding: 1em 5em 0em 1em;
     border-bottom: 1px solid black;
