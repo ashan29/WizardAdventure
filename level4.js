@@ -87,7 +87,6 @@ function addCoins(startx, posy, w, h, nbr) {
 }
 
 
-var playerchoice ="2";
 var player1 = new Image();
 player1.src = "player/" + playerchoice + "/character_" + playerchoice + "_east.png";
 var player2 = new Image();
