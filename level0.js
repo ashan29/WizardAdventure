@@ -17,7 +17,7 @@ var gameo = false;
 
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
+
 var levelsound = new Audio('Sound/levels/0.wav');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
@@ -72,7 +72,7 @@ playerthro1.src = "player/" + playerchoice + "/character_" + playerchoice + "_we
 var bull1 = new Image();
 bull1.src = "player/"+ playerchoice +"/spell_"+ playerchoice +".png";
 
-
+var shootsound = new Audio('Sound/spell'+playerchoice+'.wav');
 var coin1 = new Image();
 coin1.src = "object/Coins_01.png";
 

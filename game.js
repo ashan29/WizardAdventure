@@ -20,7 +20,7 @@ swordImg.src="Images/ship.png";
 
 var swordImg2 = new Image();
 swordImg2.src="Images/ship2.png";
-
+var levelsound = new Audio('Sound/prepare_your_swords.mp3');
 var persoChoice=false;
 var myVar;
 var swissFlag = new Image();
@@ -58,7 +58,6 @@ var characMoving2 = new Image();
 var arrowPosY = [68, 148, 228];
 
 //audios
-var levelsound= new Audio('Sound/level1sound.mp3');
 
 var volume = levelsound.volume;
 var bgImage=new Image();
@@ -259,7 +258,6 @@ document.body.addEventListener("keyup", function (event) {
 intro_screen();
 
 function intro_screen() {
-
 
 
     context.font = "50px Impact";

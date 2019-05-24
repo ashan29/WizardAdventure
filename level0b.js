@@ -13,7 +13,7 @@ var gameo = false;
 
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.wav');
 var levelsound = new Audio('Sound/levels/0.wav');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
@@ -509,7 +509,7 @@ document.body.addEventListener("keydown", function (event) {
            document.getElementById('score').setAttribute('value', frameNo);
         dynamicallyLoadScript("level1.js");
         return;
-
+yl
     }
    else if (event.keyCode == 13 && gameo)
         window.location.reload(false);

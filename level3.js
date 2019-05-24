@@ -14,7 +14,7 @@ var leveltitle="The castle part 3 ";
 var doorisopen = false;
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.wav');
 var levelsound = new Audio('Sound/level1sound.mp3');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
@@ -30,7 +30,7 @@ imggoal.src = "object/medievalTile_059.png";
 var background = new Image();
 background.src = "Images/level1back.png";
 
-
+var isDisplayed=false;
 
 //troll
 var imagTroll1 = new Image();
@@ -563,8 +563,9 @@ function complete() {
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
-    context.fillText("Congrats!", canvas.width / 2, canvas.height / 2);
-context.fillText("You've passed the level "+levelno, canvas.width / 2, canvas.height / 2+50);
+    context.fillText(frameNo, canvas.width / 2, canvas.height / 2);
+    context.fillText("Congrats " , canvas.width / 2, canvas.height / 2+50);
+
     context.font = "20px Arial";
     context.fillText("Press Enter to continue", canvas.width / 2, canvas.height / 2 + 100);
 
@@ -580,10 +581,10 @@ document.body.addEventListener("keydown", function (event) {
 
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
-
-        window.location.reload(false);
-
-
+            complete();
+isDisplayed=true;
+            if(isDisplayed)
+                  window.location.reload(false);
     }
    if (event.keyCode == 13 && gameo)
         window.location.reload(false);
@@ -839,11 +840,14 @@ if (!bluekey.ispicked)
         return;
     }
     draw_castle();
-      myScore.text = "SCORE: " + frameNo;
+        context.drawImage(playerjauge, 0, 0, 130, 49);
+    myScore.text = "SCORE: " + frameNo;
     myScore.update();
-    context.drawImage(playerjauge, 0, 0, 130, 49);
-     playerName.text=playerNameText;
+
+
+    playerName.text=playerNameText;
     playerName.update();
+
 
 }
 var myVar;

@@ -7,13 +7,13 @@ var friction = 0.8;
 var gravity = 0.98;
 var completed = false;
 var myScore;
-var frameNo=0;
+var frameNo =Number(document.getElementById('score').getAttribute('value'));
 var gameo = false;
 var levelno=2;
 var leveltitle="The castle part 1 ";
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.wav');
 var levelsound = new Audio('Sound/harry.mp3');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
@@ -532,6 +532,7 @@ document.body.addEventListener("keydown", function (event) {
     if (event.keyCode == 13 && completed) {
         levelsound.pause();
          completesound.play();
+          document.getElementById('score').setAttribute('value', frameNo);
         dynamicallyLoadScript("level3.js");
 
     }

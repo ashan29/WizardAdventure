@@ -13,14 +13,15 @@ var levelno=2;
 var leveltitle="The castle part 1 ";
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.wav');
 var levelsound = new Audio('Sound/level1sound.mp3');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
 var completesound = new Audio('Sound/complete.wav');
-myScore = new component("10px", "Consolas", "black", 85, 40, "text");
+myScore =myScore = new component("10px", "Consolas", "black", 80, 40, "text");
 var playerName = new component("10px", "Consolas", "black", 93, 22, "text");
 var playerNameText=localStorage.getItem('playername');
+
 
 
 var imggoal = new Image();
@@ -495,9 +496,10 @@ document.body.addEventListener("keydown", function (event) {
         frameNo = frameNo.toString();
          document.getElementById('score').setAttribute('value', frameNo);
         dynamicallyLoadScript("level4.js");
+        return;
 
     }
-    if (event.keyCode == 13 && gameo)
+   else if (event.keyCode == 13 && gameo)
         window.location.reload(false);
 
     keys[event.keyCode] = true;
@@ -655,7 +657,9 @@ context.drawImage(playerjauge, 0, 0, 130, 49);
     context.drawImage(sign, canvas.width - 150, canvas.height - 90, 30, 45);
     myScore.text = "SCORE: " + frameNo;
     myScore.update();
- playerName.text=playerNameText;
+
+
+    playerName.text=playerNameText;
     playerName.update();
     if (!enemy.dead) {
         enemy.draw();
