@@ -13,7 +13,7 @@ var levelno=2;
 var leveltitle="The castle part 1 ";
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/Fireball2.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
 var levelsound = new Audio('Sound/level1sound.mp3');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
@@ -491,7 +491,7 @@ document.body.addEventListener("keydown", function (event) {
         levelsound.pause();
          completesound.play();
          document.getElementById('score').setAttribute('value', frameNo);
-        dynamicallyLoadScript("level3.js");
+        dynamicallyLoadScript("level4.js");
 
     }
     if (event.keyCode == 13 && gameo)

@@ -9,7 +9,7 @@ var completed = false;
 var gameo = false;
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/shoot.wav');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
 var coinsound = new Audio('Sound/coin.wav');
 var levelsound = new Audio('Sound/Camille_Saint-Saens-Aquarium.oga');
 

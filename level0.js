@@ -17,7 +17,7 @@ var gameo = false;
 
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/Fireball2.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
 var levelsound = new Audio('Sound/levels/0.wav');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
@@ -539,7 +539,7 @@ function complete() {
     context.font = "50px Impact";
     context.fillStyle = "#0099CC";
     context.textAlign = "center";
-    context.fillText("Congrats! You've passed the level "+levelno, canvas.width / 2, canvas.height / 2);
+    context.fillText("Congrats!", canvas.width / 2, canvas.height / 2);
 context.fillText("You've passed the level "+levelno, canvas.width / 2, canvas.height / 2+50);
     context.font = "20px Arial";
     context.fillText("Press Enter to continue", canvas.width / 2, canvas.height / 2 + 100);

@@ -13,7 +13,7 @@ var levelno=2;
 var leveltitle="The castle part 1 ";
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/Fireball2.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
 var levelsound = new Audio('Sound/harry.mp3');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');

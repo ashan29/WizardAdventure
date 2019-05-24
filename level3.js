@@ -14,7 +14,7 @@ var leveltitle="The castle part 3 ";
 var doorisopen = false;
 //audios
 var jumpsound = new Audio('Sound/jump_11.wav');
-var shootsound = new Audio('Sound/Fireball2.mp3');
+var shootsound = new Audio('Sound/spell'+playerchoice+'.mp3');
 var levelsound = new Audio('Sound/level1sound.mp3');
 var deathsound = new Audio('Sound/death.wav');
 var coinsound = new Audio('Sound/coin.wav');
@@ -95,7 +95,8 @@ var playerthro1 = new Image();
 playerthro1.src = "player/" + playerchoice + "/character_" + playerchoice + "_west_casting.png";
 var bull1 = new Image();
 bull1.src = "player/" + playerchoice + "/spell_" + playerchoice + ".png";
-
+var princess = new Image();
+princess.src = "object/princess.png";
 
 
 var tree = new Image();
@@ -224,7 +225,20 @@ var bullet = {
 
     }
 }
+var princessobj = {
+    x: (player.x)-4,
+    y: (player.y),
+    width: 30,
+    height: 35,
+     speed: 2,
+    velX: 0,
+    velY: 0,
+    ispicked: false,
+    draw: function () {
 
+            context.drawImage(princess, (player.x)-4, (player.y), this.width, this.height);
+    }
+}
 //enemy only one now
 var enemy = {
     x: canvas.width - 180,
@@ -709,6 +723,7 @@ if (!bluekey.ispicked)
     draw_enemies();
     draw_tower();
     goal.draw();
+    princessobj.draw();
     player.draw();
 
     draw_tower2();
