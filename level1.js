@@ -29,7 +29,9 @@ imggoal.src = "object/medievalTile_059.png";
 var background = new Image();
 background.src = "Images/level1back.png";
 
+/*
 
+*/
 
 //troll
 var imagTroll1 = new Image();
