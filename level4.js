@@ -335,7 +335,7 @@ var bluekey = {
 //where is the gate to go to the next level
 var goal = {
     x: canvas.width - 640,
-    y: 15,
+    y: 40,
     width: 50,
     height: 70,
     color: "#0098cb",
@@ -718,7 +718,7 @@ function loop() {
     }
 
     player.draw();
-    context.drawImage(princess, 10, 25, 30, 60);
+    context.drawImage(princess, 10, 40, 30, 60);
      if (!bluekey.ispicked)
         {
 
