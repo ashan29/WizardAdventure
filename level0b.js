@@ -508,9 +508,10 @@ document.body.addEventListener("keydown", function (event) {
         completesound.play();
            document.getElementById('score').setAttribute('value', frameNo);
         dynamicallyLoadScript("level1.js");
+        return;
 
     }
-    if (event.keyCode == 13 && gameo)
+   else if (event.keyCode == 13 && gameo)
         window.location.reload(false);
 
     keys[event.keyCode] = true;
